@@ -1,6 +1,7 @@
 
 Setup package.json
 
+	npm install -g grunt-cli
 	npm init
 
 Setup dev dependencies
