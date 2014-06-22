@@ -6,5 +6,5 @@ Setup package.json
 
 Setup dev dependencies
 
-	npm install grunt grunt-contrib-jshint grunt-jasmine-runner --save-dev
+	npm install grunt grunt-contrib-jshint grunt-contrib-jasmine --save-dev
 
