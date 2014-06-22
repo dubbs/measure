@@ -1,3 +1,4 @@
+# measure [![Build Status](https://travis-ci.org/dubbs/measure.png)](https://travis-ci.org/dubbs/measure)
 
 Setup package.json
 
