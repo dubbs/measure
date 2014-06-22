@@ -8,7 +8,7 @@ module.exports = function (grunt) {
   	jshint: {
       all: [
         "Gruntfile.js",
-        "lib/**/*.js",
+        "src/**/*.js",
         "spec/**/*.js"
       ],
       options: {
@@ -16,7 +16,7 @@ module.exports = function (grunt) {
       }
     },
     jasmine: {
-      src: "lib/**/*.js",
+      src: "src/**/*.js",
       options: {
         specs: "spec/**/*.js",
         vendor: "vendor/**/*.js",
