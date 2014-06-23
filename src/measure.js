@@ -1,33 +1,64 @@
 (function (window) {
 
-	function Measure() {
-		this._country = 'US';
-		this._props = ['_drop', '_teaspoon', '_tablespoon', '_fluidounce', '_jigger', '_gill', '_cups', '_pint', '_fifth', '_quart', '_gallon'];
-		
-		this._drop = 0;
-		this._teaspoon = 0;
-		this._tablespoon = 0;
-		this._fluidounce = 0;
-		this._jigger = 0;
-		this._gill = 0;
-		this._cups = 0;
-		this._pint = 0;
-		this._fifth = 0;
-		this._quart = 0;
-		this._gallon = 0;
+	function Measure(config) {
+		config = config || {};
 
+		this._system = 'US';
+		this._data = {};
+		this._units = [
+			'drops',
+			'teaspoons',
+			'tablespoons',
+			'fluidounces',
+			'jiggers',
+			'gills',
+			'cups',
+			'pints',
+			'fifths',
+			'quarts',
+			'gallons'
+		];
+
+		this.initProps(this._units);
+		// console.log(this);
 	}
 
-	Measure.prototype.add = function(input) {
+	Measure.prototype.initProps = function(units) {
+		
+		for (var prop in units) {
+			// init data
+			if (units.hasOwnProperty(prop)) {
+				this._data[units[prop]] = 0;
 
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && this._props.indexOf('_'+prop) !== -1) {
-				this['_'+prop] += input[prop];
+
+				if (typeof Measure.prototype[units[prop]] === 'undefined') {
+					// init accessor
+					Measure.prototype[units[prop]] = (function(element){
+						return function () {
+							var totalMl = this.totalForProp('ml');
+							var baseMl = this.measurements[element][this._system].ml;
+							return totalMl/baseMl;
+						};
+					}(units[prop]));
+		
+				}				
 			}
+
 		}
 
+	};
+
+
+
+	Measure.prototype.add = function(input) {
+		for (var prop in input) {
+			if (input.hasOwnProperty(prop) && typeof this._data[prop] !== undefined) {
+				this._data[prop] += input[prop];
+			}
+		}
 		return this;
 	};
+
 
 	Measure.prototype.ml = function() {
 		return this.totalForProp('ml');
@@ -41,88 +72,89 @@
 	Measure.prototype.totalForProp = function(prop) {
 		var total = 0;
 
-		this._props.forEach(function (element) {
+		this._units.forEach(function (element) {
+
 			
 			// find measurement as mls
 			var propTotal;
 			try {
-				propTotal = this._data[element][this._country][prop];
+				propTotal = this.measurements[element][this._system][prop];
 			} catch (e) {
-				propTotal = this._data[element]['*'][prop];
+				propTotal = this.measurements[element]['*'][prop];
 			}
 
 			// add to total
-			total += (this[element] * propTotal);
+			total += (this._data[element] * propTotal);
 
 		}, this);
 
 		return total;		
 	};
 
-	Measure.prototype._data = {
+	Measure.prototype.measurements = {
 
-		_drop: {
-			"*": {
+		drops: {
+			"US": {
 				ml: 0.05,
 				oz: 1/576
 			}
 		},
-		_teaspoon: {
-			"*": {
+		teaspoons: {
+			"US": {
 				ml: 4.93,
 				oz: 1/6
 			}
 		},
-		_tablespoon: {
-			"*": {
+		tablespoons: {
+			"US": {
 				ml: 14.79,
 				oz: 1/2
 			}
 		},
-		_fluidounce: {
-			"*": {
+		fluidounces: {
+			"US": {
 				ml: 29.57,
 				oz: 1
 			}
 		},
-		_jigger: {
-			"*": {
+		jiggers: {
+			"US": {
 				ml: 44.36,
 				oz: 1.5
 			}
 		},
-		_gill: {
-			"*": {
+		gills: {
+			"US": {
 				ml: 118.29,
 				oz: 4
 			}
 		},
-		_cups: {
-			"*": {
+		cups: {
+			"US": {
 				ml: 236.59,
 				oz: 8
 			}
 		},
-		_pint: {
-			"*": {
+		pints: {
+			"US": {
 				ml: 473.18,
 				oz: 16
 			}
 		},
-		_fifth: {
-			"*": {
+		fifths: {
+			"US": {
 				ml: 750,
 				oz: 25.36
 			}
 		},
-		_quart: {
-			"*": {
+		quarts: {
+			"US": {
 				ml: 946.35,
 				oz: 32
 			}
 		},
-		_gallon: {
-			"*": {
+		gallons: {
+			"US": {
 				ml: 3785.41,
 				oz: 128
 			}

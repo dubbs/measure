@@ -1,29 +1,16 @@
-describe("US units", function() {
+describe("", function() {
   beforeEach(function() {});
-  it("add to ml", function() {
-    expect(measure().add({drop: 1}).ml()).toEqual(0.05);
-    expect(measure().add({teaspoon: 1}).ml()).toEqual(4.93);
-    expect(measure().add({tablespoon: 1}).ml()).toEqual(14.79);
-    expect(measure().add({fluidounce: 1}).ml()).toEqual(29.57);
-    expect(measure().add({jigger: 1}).ml()).toEqual(44.36);
-    expect(measure().add({gill: 1}).ml()).toEqual(118.29);
-    expect(measure().add({cups: 1}).ml()).toEqual(236.59);
-    expect(measure().add({pint: 1}).ml()).toEqual(473.18);
-    expect(measure().add({fifth: 1}).ml()).toEqual(750);
-    expect(measure().add({quart: 1}).ml()).toEqual(946.35);
-    expect(measure().add({gallon: 1}).ml()).toEqual(3785.41);
-  });
-  it("add to fl oz", function() {
-    expect(measure().add({drop: 1}).floz()).toEqual(1/576);
-    expect(measure().add({teaspoon: 1}).floz()).toEqual(1/6);
-    expect(measure().add({tablespoon: 1}).floz()).toEqual(1/2);
-    expect(measure().add({fluidounce: 1}).floz()).toEqual(1);
-    expect(measure().add({jigger: 1}).floz()).toEqual(1.5);
-    expect(measure().add({gill: 1}).floz()).toEqual(4);
-    expect(measure().add({cups: 1}).floz()).toEqual(8);
-    expect(measure().add({pint: 1}).floz()).toEqual(16);
-    expect(measure().add({fifth: 1}).floz()).toEqual(25.36);
-    expect(measure().add({quart: 1}).floz()).toEqual(32);
-    expect(measure().add({gallon: 1}).floz()).toEqual(128);
+  it("add", function() {
+    expect(measure().add({drops: 1}).drops()).toEqual(1);
+    expect(measure().add({teaspoons: 2}).teaspoons()).toEqual(2);
+    expect(measure().add({tablespoons: 3}).tablespoons()).toEqual(3);
+    expect(measure().add({fluidounces: 4}).fluidounces()).toEqual(4);
+    expect(measure().add({jiggers: 5}).jiggers()).toEqual(5);
+    expect(measure().add({gills: 6}).gills()).toEqual(6);
+    expect(measure().add({cups: 7}).cups()).toEqual(7);
+    expect(measure().add({pints: 8}).pints()).toEqual(8);
+    expect(measure().add({fifths: 9}).fifths()).toEqual(9);
+    expect(measure().add({quarts: 10}).quarts()).toEqual(10);
+    expect(measure().add({gallons: 10}).gallons()).toEqual(10);
   });
 });
