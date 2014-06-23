@@ -12,3 +12,7 @@ Setup dev dependencies
 	npm install grunt grunt-contrib-jshint grunt-contrib-jasmine --save-dev
 
 Download and extract jasmine-standalone-2.0.0.zip
+
+References:
+
+http://travisjeffery.com/b/2013/09/testing-javascript-projects-with-grunt-jasmine-jshint/

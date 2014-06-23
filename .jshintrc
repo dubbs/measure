@@ -1,3 +1,29 @@
 {
-	
+	// enforcing
+	"camelcase": true,
+	"curly": true,
+	"eqeqeq": true,
+	"forin": true,
+	"freeze": true,
+	"immed": true,
+	"indent": 2,
+	"latedef": true,
+	"newcap": true,
+	"noempty": true,
+	"nonbsp": true,
+	"undef": true,
+	"unused": true,
+	"trailing": true,
+	// relaxing
+	// environment
+
+	"globals": {
+		"describe": false,
+		"it": false,
+		"expect": false,
+		"beforeEach": false,
+		"jasmine": false,
+		"spyOn": false,
+		"measure": false
+	}
 }
