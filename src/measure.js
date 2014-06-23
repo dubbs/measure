@@ -30,56 +30,102 @@
 	};
 
 	Measure.prototype.ml = function() {
+		return this.totalForProp('ml');
+	};
 
+	Measure.prototype.floz = function() {
+		return this.totalForProp('oz');
+	};
+
+
+	Measure.prototype.totalForProp = function(prop) {
 		var total = 0;
 
 		this._props.forEach(function (element) {
 			
 			// find measurement as mls
-			var asMls = this._data[element][this._country] || this._data[element]['*'];
+			var propTotal;
+			try {
+				propTotal = this._data[element][this._country][prop];
+			} catch (e) {
+				propTotal = this._data[element]['*'][prop];
+			}
 
 			// add to total
-			total += (this[element] * asMls);
-
+			total += (this[element] * propTotal);
 
 		}, this);
-		return total;
+
+		return total;		
 	};
 
 	Measure.prototype._data = {
 
 		_drop: {
-			"*": 0.05
+			"*": {
+				ml: 0.05,
+				oz: 1/576
+			}
 		},
 		_teaspoon: {
-			"*": 4.93
+			"*": {
+				ml: 4.93,
+				oz: 1/6
+			}
 		},
 		_tablespoon: {
-			"*": 14.79
+			"*": {
+				ml: 14.79,
+				oz: 1/2
+			}
 		},
 		_fluidounce: {
-			"*": 29.57
+			"*": {
+				ml: 29.57,
+				oz: 1
+			}
 		},
 		_jigger: {
-			"*": 44.36
+			"*": {
+				ml: 44.36,
+				oz: 1.5
+			}
 		},
 		_gill: {
-			"*": 118.29
+			"*": {
+				ml: 118.29,
+				oz: 4
+			}
 		},
 		_cups: {
-			"*": 236.59
+			"*": {
+				ml: 236.59,
+				oz: 8
+			}
 		},
 		_pint: {
-			"*": 473.18
+			"*": {
+				ml: 473.18,
+				oz: 16
+			}
 		},
 		_fifth: {
-			"*": 750
+			"*": {
+				ml: 750,
+				oz: 25.36
+			}
 		},
 		_quart: {
-			"*": 946.35
+			"*": {
+				ml: 946.35,
+				oz: 32
+			}
 		},
 		_gallon: {
-			"*": 3785.41
+			"*": {
+				ml: 3785.41,
+				oz: 128
+			}
 		}
 
 	};
