@@ -105,7 +105,7 @@
 	Measure.prototype.totalByUnit = function(element) {
 		var totalMl = this.totalByType('ml');
 		var baseMl = this.measurements[element][this.system].ml;
-		return Math.round(totalMl/baseMl * 100) / 100;
+		return Math.round((totalMl/baseMl + 0.00001) * 100) / 100;
 	};
 
 	Measure.prototype.totalByType = function(prop) {
