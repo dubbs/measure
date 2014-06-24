@@ -1,42 +1,150 @@
 (function (window) {
 
-	function Measure(config) {
-		config = config || {};
+	function Measure(options) {
+		this.amount = {};
+		this.amount.drops       = options.drops       || 0;
+		this.amount.teaspoons   = options.teaspoons   || 0;
+		this.amount.tablespoons = options.tablespoons || 0;
+		this.amount.fluidounces = options.fluidounces || 0;
+		this.amount.jiggers     = options.jiggers     || 0;
+		this.amount.gills       = options.gills       || 0;
+		this.amount.cups        = options.cups        || 0;
+		this.amount.pints       = options.pints       || 0;
+		this.amount.fifths      = options.fifths      || 0;
+		this.amount.quarts      = options.quarts      || 0;
+		this.amount.gallons     = options.gallons     || 0;
 
-		this._system = 'US';
-		this._data = {};
-		this._units = [
-			'drops',
-			'teaspoons',
-			'tablespoons',
-			'fluidounces',
-			'jiggers',
-			'gills',
-			'cups',
-			'pints',
-			'fifths',
-			'quarts',
-			'gallons'
-		];
-
-		this.initProps(this._units);
-		// console.log(this);
+		this.system = 'US';
 	}
+
+	Measure.prototype._units = [
+		'drops',
+		'teaspoons',
+		'tablespoons',
+		'fluidounces',
+		'jiggers',
+		'gills',
+		'cups',
+		'pints',
+		'fifths',
+		'quarts',
+		'gallons'
+	];
+
+	Measure.prototype.drops = function() {
+		return this.totalByUnit('drops');
+	};
+	Measure.prototype.teaspoons = function() {
+		return this.totalByUnit('teaspoons');
+	};
+	Measure.prototype.tablespoons = function() {
+		return this.totalByUnit('tablespoons');
+	};
+	Measure.prototype.fluidounces = function() {
+		return this.totalByUnit('fluidounces');
+	};
+	Measure.prototype.jiggers = function() {
+		return this.totalByUnit('jiggers');
+	};
+	Measure.prototype.gills = function() {
+		return this.totalByUnit('gills');
+	};
+	Measure.prototype.cups = function() {
+		return this.totalByUnit('cups');
+	};
+	Measure.prototype.pints = function() {
+		return this.totalByUnit('pints');
+	};
+	Measure.prototype.fifths = function() {
+		return this.totalByUnit('fifths');
+	};
+	Measure.prototype.quarts = function() {
+		return this.totalByUnit('quarts');
+	};
+	Measure.prototype.gallons = function() {
+		return this.totalByUnit('gallons');
+	};
+
+	// operations
+	Measure.prototype.add = function(input) {
+		for (var prop in input) {
+			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
+				this.amount[prop] += input[prop];
+			}
+		}
+		return this;
+	};
+	Measure.prototype.subtract = function(input) {
+		for (var prop in input) {
+			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
+				this.amount[prop] -= input[prop];
+			}
+		}
+		return this;
+	};
+	Measure.prototype.multiply = function(input) {
+		for (var prop in input) {
+			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
+				this.amount[prop] *= input[prop];
+			}
+		}
+		return this;
+	};
+	Measure.prototype.divide = function(input) {
+		for (var prop in input) {
+			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
+				this.amount[prop] /= input[prop];
+			}
+		}
+		return this;
+	};
+
+
+	// totals
+
+	Measure.prototype.totalByUnit = function(element) {
+		var totalMl = this.totalByType('ml');
+		var baseMl = this.measurements[element][this.system].ml;
+		return Math.round(totalMl/baseMl * 100) / 100;
+	};
+
+	Measure.prototype.totalByType = function(prop) {
+		var total = 0;
+
+		this._units.forEach(function (element) {
+
+			// find measurement as mls
+			var propTotal;
+			try {
+				propTotal = this.measurements[element][this.system][prop];
+			} catch (e) {
+				propTotal = this.measurements[element]['*'][prop];
+			}
+
+			// add to total
+			total += (this.amount[element] * propTotal);
+
+		}, this);
+
+		return total;		
+	};
+
+	// other
 
 	Measure.prototype.initProps = function(units) {
 		
 		for (var prop in units) {
 			// init data
 			if (units.hasOwnProperty(prop)) {
-				this._data[units[prop]] = 0;
+				this.amount[units[prop]] = 0;
 
 
 				if (typeof Measure.prototype[units[prop]] === 'undefined') {
 					// init accessor
 					Measure.prototype[units[prop]] = (function(element){
 						return function () {
-							var totalMl = this.totalForProp('ml');
-							var baseMl = this.measurements[element][this._system].ml;
+							var totalMl = this.totalByType('ml');
+							var baseMl = this.measurements[element][this.system].ml;
 							return totalMl/baseMl;
 						};
 					}(units[prop]));
@@ -50,46 +158,19 @@
 
 
 
-	Measure.prototype.add = function(input) {
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this._data[prop] !== undefined) {
-				this._data[prop] += input[prop];
-			}
-		}
-		return this;
-	};
+
 
 
 	Measure.prototype.ml = function() {
-		return this.totalForProp('ml');
+		return this.totalByType('ml');
 	};
 
 	Measure.prototype.floz = function() {
-		return this.totalForProp('oz');
+		return this.totalByType('oz');
 	};
 
 
-	Measure.prototype.totalForProp = function(prop) {
-		var total = 0;
 
-		this._units.forEach(function (element) {
-
-			
-			// find measurement as mls
-			var propTotal;
-			try {
-				propTotal = this.measurements[element][this._system][prop];
-			} catch (e) {
-				propTotal = this.measurements[element]['*'][prop];
-			}
-
-			// add to total
-			total += (this._data[element] * propTotal);
-
-		}, this);
-
-		return total;		
-	};
 
 	Measure.prototype.measurements = {
 
@@ -162,7 +243,22 @@
 
 	};
 
-	var measure = function () {
+	// create
+	Measure.createFromString = function() {
+		return new Measure();
+	};
+	Measure.createFromObject = function(options) {
+		return new Measure(options);
+	};
+
+
+	var measure = function (options) {
+		if (typeof(options) === 'string') {
+			return Measure.createFromString(options);
+		}
+		if (typeof(options) === 'object') {
+			return Measure.createFromObject(options);
+		}
 		return new Measure();
 	};
 
