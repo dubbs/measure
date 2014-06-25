@@ -170,34 +170,34 @@
 		lexer.addRule(/(drop)/g, function () {
 			unit = 'drops';
 		});
-		lexer.addRule(/(teaspoon)/g, function () {
+		lexer.addRule(/(teaspoon|tsp\.|t\.)/g, function () {
 			unit = 'teaspoons';
 		});
-		lexer.addRule(/(tablespoon)/g, function () {
+		lexer.addRule(/(tablespoon|tbsp\.|T\.)/g, function () {
 			unit = 'tablespoons';
 		});
-		lexer.addRule(/(fluidounce)/g, function () {
+		lexer.addRule(/(fluidounce|fl\.oz\.|oz\.)/g, function () {
 			unit = 'fluidounces';
 		});
 		lexer.addRule(/(jigger)/g, function () {
 			unit = 'jiggers';
 		});
-		lexer.addRule(/(gill)/g, function () {
+		lexer.addRule(/(gill|gi\.)/g, function () {
 			unit = 'gills';
 		});
-		lexer.addRule(/(cup)/g, function () {
+		lexer.addRule(/(cup|C)/g, function () {
 			unit = 'cups';
 		});
-		lexer.addRule(/(pint)/g, function () {
+		lexer.addRule(/(pint|pt\.)/g, function () {
 			unit = 'pints';
 		});
 		lexer.addRule(/(fifth)/g, function () {
 			unit = 'fifths';
 		});
-		lexer.addRule(/(quart)/g, function () {
+		lexer.addRule(/(quart|qt\.)/g, function () {
 			unit = 'quarts';
 		});
-		lexer.addRule(/(gallon)/g, function () {
+		lexer.addRule(/(gallon|gal\.)/g, function () {
 			unit = 'gallons';
 		});
 		lexer.addRule(/\s/g, function () {});

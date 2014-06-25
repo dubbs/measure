@@ -1,6 +1,6 @@
 describe("parseOptionsFromString", function() {
   beforeEach(function() {});
-  it("should parse simple inputs", function() {
+  it("should parse long inputs", function() {
     expect(Measure.prototype.parseOptionsFromString('1 drop')).toEqual({drops: 1});
     expect(Measure.prototype.parseOptionsFromString('1 teaspoon')).toEqual({teaspoons: 1});
     expect(Measure.prototype.parseOptionsFromString('1 tablespoon')).toEqual({tablespoons: 1});
@@ -12,5 +12,18 @@ describe("parseOptionsFromString", function() {
     expect(Measure.prototype.parseOptionsFromString('1 fifth')).toEqual({fifths: 1});
     expect(Measure.prototype.parseOptionsFromString('1 quart')).toEqual({quarts: 1});
     expect(Measure.prototype.parseOptionsFromString('1 gallon')).toEqual({gallons: 1});
+  });
+  it("should parse abbreviated inputs", function() {
+    expect(Measure.prototype.parseOptionsFromString('1 tsp.')).toEqual({teaspoons: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 t.')).toEqual({teaspoons: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 tbsp.')).toEqual({tablespoons: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 T.')).toEqual({tablespoons: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 fl.oz.')).toEqual({fluidounces: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 oz.')).toEqual({fluidounces: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 gi.')).toEqual({gills: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 C')).toEqual({cups: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 pt.')).toEqual({pints: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 qt.')).toEqual({quarts: 1});
+    expect(Measure.prototype.parseOptionsFromString('1 gal.')).toEqual({gallons: 1});
   });
 });
