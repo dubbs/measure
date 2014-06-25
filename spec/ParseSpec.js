@@ -1,6 +1,7 @@
 describe("parseOptionsFromString", function() {
   beforeEach(function() {});
   it("should parse long inputs", function() {
+    expect(Measure.prototype.parseOptionsFromString('1 tomato')).toEqual({units: 1});
     expect(Measure.prototype.parseOptionsFromString('1 drop')).toEqual({drops: 1});
     expect(Measure.prototype.parseOptionsFromString('1 teaspoon')).toEqual({teaspoons: 1});
     expect(Measure.prototype.parseOptionsFromString('1 tablespoon')).toEqual({tablespoons: 1});

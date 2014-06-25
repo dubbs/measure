@@ -2,6 +2,7 @@
 
 	function Measure(options) {
 		this.amount = {};
+		this.amount.units       = options.units       || 0;
 		this.amount.drops       = options.drops       || 0;
 		this.amount.teaspoons   = options.teaspoons   || 0;
 		this.amount.tablespoons = options.tablespoons || 0;
@@ -18,6 +19,7 @@
 	}
 
 	Measure.prototype._units = [
+		'units',
 		'drops',
 		'teaspoons',
 		'tablespoons',
@@ -31,6 +33,9 @@
 		'gallons'
 	];
 
+	Measure.prototype.units = function() {
+		return this.totalByUnit('units');
+	};
 	Measure.prototype.drops = function() {
 		return this.totalByUnit('drops');
 	};
@@ -161,7 +166,7 @@
 		
 		var lexer = new Lexer();
 
-		var num;
+		var num = 0;
 		var obj = {};
 
 		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
@@ -169,41 +174,46 @@
 			lexeme = lexeme.trim().replace('-',' ').split(' ').join('+');
 			num = eval(lexeme);
 		});
-		lexer.addRule(/(drop)/g, function () {
+		lexer.addRule(/(drops?)/g, function () {
 			obj.drops = num;
 		});
-		lexer.addRule(/(teaspoon|tsp\.|t\.)/g, function () {
+		lexer.addRule(/(teaspoons?|tsp\.|t\.)/g, function () {
 			obj.teaspoons = num;
 		});
-		lexer.addRule(/(tablespoon|tbsp\.|T\.)/g, function () {
+		lexer.addRule(/(tablespoons?|tbsp\.|T\.)/g, function () {
 			obj.tablespoons = num;
 		});
-		lexer.addRule(/(fluidounce|fl\.oz\.|oz\.)/g, function () {
+		lexer.addRule(/(fluidounces?|fl\.oz\.|oz\.)/g, function () {
 			obj.fluidounces = num;
 		});
-		lexer.addRule(/(jigger)/g, function () {
+		lexer.addRule(/(jiggers?)/g, function () {
 			obj.jiggers = num;
 		});
-		lexer.addRule(/(gill|gi\.)/g, function () {
+		lexer.addRule(/(gills?|gi\.)/g, function () {
 			obj.gills = num;
 		});
-		lexer.addRule(/(cup|C)/g, function () {
+		lexer.addRule(/(cups?|C)/g, function () {
 			obj.cups = num;
 		});
-		lexer.addRule(/(pint|pt\.)/g, function () {
+		lexer.addRule(/(pints?|pt\.)/g, function () {
 			obj.pints = num;
 		});
-		lexer.addRule(/(fifth)/g, function () {
+		lexer.addRule(/(fifths?)/g, function () {
 			obj.fifths = num;
 		});
-		lexer.addRule(/(quart|qt\.)/g, function () {
+		lexer.addRule(/(quarts?|qt\.)/g, function () {
 			obj.quarts = num;
 		});
-		lexer.addRule(/(gallon|gal\.)/g, function () {
+		lexer.addRule(/(gallons?|gal\.)/g, function () {
 			obj.gallons = num;
 		});
+		lexer.addRule(/[^0-9]+/g, function () {
+			// if haven't set another value yet, assume its an arbitrary unit
+			if (Object.keys(obj).length === 0) {
+				obj.units = num;
+			}
+		});
 		lexer.addRule(/\s/g, function () {});
-		lexer.addRule(/([a-z]+)/g, function () {});
 
 		lexer.setInput(input);
 
@@ -225,7 +235,12 @@
 
 
 	Measure.prototype.measurements = {
-
+		units: {
+			"US": {
+				ml: 0,
+				oz: 0
+			}
+		},
 		drops: {
 			"US": {
 				ml: 0.05,
