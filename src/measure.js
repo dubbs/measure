@@ -167,8 +167,38 @@
 		lexer.addRule(/[0-9.\/]+/g, function (lexeme) {
 			num = eval(lexeme);
 		});
-		lexer.addRule(/(teaspoon|tsp)/g, function () {
+		lexer.addRule(/(drop)/g, function () {
+			unit = 'drops';
+		});
+		lexer.addRule(/(teaspoon)/g, function () {
 			unit = 'teaspoons';
+		});
+		lexer.addRule(/(tablespoon)/g, function () {
+			unit = 'tablespoons';
+		});
+		lexer.addRule(/(fluidounce)/g, function () {
+			unit = 'fluidounces';
+		});
+		lexer.addRule(/(jigger)/g, function () {
+			unit = 'jiggers';
+		});
+		lexer.addRule(/(gill)/g, function () {
+			unit = 'gills';
+		});
+		lexer.addRule(/(cup)/g, function () {
+			unit = 'cups';
+		});
+		lexer.addRule(/(pint)/g, function () {
+			unit = 'pints';
+		});
+		lexer.addRule(/(fifth)/g, function () {
+			unit = 'fifths';
+		});
+		lexer.addRule(/(quart)/g, function () {
+			unit = 'quarts';
+		});
+		lexer.addRule(/(gallon)/g, function () {
+			unit = 'gallons';
 		});
 		lexer.addRule(/\s/g, function () {});
 		lexer.addRule(/([a-z]+)/g, function () {});
@@ -184,11 +214,6 @@
 		return obj;
 
 	};
-
-
-
-
-
 
 	Measure.prototype.ml = function() {
 		return this.totalByType('ml');
