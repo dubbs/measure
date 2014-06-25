@@ -164,9 +164,9 @@
 		var num;
 		var unit;
 
-		lexer.addRule(/[0-9.\/ ]+/g, function (lexeme) {
+		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
 			// add mixed numbers
-			lexeme = lexeme.trim().split(' ').join('+');
+			lexeme = lexeme.trim().replace('-',' ').split(' ').join('+');
 			num = eval(lexeme);
 		});
 		lexer.addRule(/(drop)/g, function () {
