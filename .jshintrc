@@ -15,6 +15,7 @@
 	"unused": true,
 	"trailing": true,
 	// relaxing
+	"evil": true,
 	"loopfunc": true,
 	// environment
 
@@ -25,6 +26,9 @@
 		"beforeEach": false,
 		"jasmine": false,
 		"spyOn": false,
-		"measure": false
+		"measure": false,
+		"Lexer": false,
+		"Measure": false
+
 	}
 }

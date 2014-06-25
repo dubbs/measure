@@ -1,0 +1,16 @@
+{
+  "name": "measure",
+  "version": "0.0.0",
+  "homepage": "https://github.com/dubbs/measure",
+  "authors": [
+    "Kevin Warrington <kevin.warrington@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

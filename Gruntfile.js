@@ -19,7 +19,7 @@ module.exports = function (grunt) {
       src: "src/**/*.js",
       options: {
         specs: "spec/**/*.js",
-        vendor: "vendor/**/*.js",
+        vendor: "bower_components/**/*.js",
         version: '2.0.0'
     	}
   	}

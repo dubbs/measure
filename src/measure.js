@@ -156,6 +156,35 @@
 
 	};
 
+	// lexer 
+	Measure.prototype.parseOptionsFromString = function(input) {
+		
+		var lexer = new Lexer();
+
+		var num;
+		var unit;
+
+		lexer.addRule(/[0-9.\/]+/g, function (lexeme) {
+			num = eval(lexeme);
+		});
+		lexer.addRule(/(teaspoon|tsp)/g, function () {
+			unit = 'teaspoons';
+		});
+		lexer.addRule(/\s/g, function () {});
+		lexer.addRule(/([a-z]+)/g, function () {});
+
+		lexer.setInput(input);
+
+		lexer.lex();
+
+		// setup return object
+		var obj = {};
+		obj[unit] = num;
+
+		return obj;
+
+	};
+
 
 
 
@@ -244,8 +273,9 @@
 	};
 
 	// create
-	Measure.createFromString = function() {
-		return new Measure();
+	Measure.createFromString = function(options) {
+		options = this.parseOptionsFromString(options);
+		return new Measure(options);
 	};
 	Measure.createFromObject = function(options) {
 		return new Measure(options);
@@ -253,6 +283,7 @@
 
 
 	var measure = function (options) {
+
 		if (typeof(options) === 'string') {
 			return Measure.createFromString(options);
 		}
@@ -263,5 +294,7 @@
 	};
 
 	window.measure = measure;
+
+	window.Measure = Measure;
 
 }(this));

@@ -1,6 +1,6 @@
-describe("", function() {
+describe("operations", function() {
   beforeEach(function() {});
-  it("add", function() {
+  it("should add for each unit", function() {
     expect(measure({drops: 1}).add({drops: 1}).drops()).toEqual(2);
     expect(measure({teaspoons: 1}).add({teaspoons: 1}).teaspoons()).toEqual(2);
     expect(measure({tablespoons: 1}).add({tablespoons: 1}).tablespoons()).toEqual(2);
@@ -13,7 +13,7 @@ describe("", function() {
     expect(measure({quarts: 1}).add({quarts: 1}).quarts()).toEqual(2);
     expect(measure({gallons: 1}).add({gallons: 1}).gallons()).toEqual(2);
   });
-  it("subtract", function() {
+  it("should subtract for each unit", function() {
     expect(measure({drops: 3.25}).subtract({drops: 2.75}).drops()).toEqual(0.5);
     expect(measure({teaspoons: 3.25}).subtract({teaspoons: 2.75}).teaspoons()).toEqual(0.5);
     expect(measure({tablespoons: 3.25}).subtract({tablespoons: 2.75}).tablespoons()).toEqual(0.5);
@@ -26,7 +26,7 @@ describe("", function() {
     expect(measure({quarts: 3.25}).subtract({quarts: 2.75}).quarts()).toEqual(0.5);
     expect(measure({gallons: 3.25}).subtract({gallons: 2.75}).gallons()).toEqual(0.5);
   });
-  it("multiply", function() {
+  it("should multiply for each unit", function() {
     expect(measure({drops: 1.5}).multiply({drops: 3}).drops()).toEqual(4.5);
     expect(measure({teaspoons: 1.5}).multiply({teaspoons: 3}).teaspoons()).toEqual(4.5);
     expect(measure({tablespoons: 1.5}).multiply({tablespoons: 3}).tablespoons()).toEqual(4.5);
@@ -39,7 +39,7 @@ describe("", function() {
     expect(measure({quarts: 1.5}).multiply({quarts: 3}).quarts()).toEqual(4.5);
     expect(measure({gallons: 1.5}).multiply({gallons: 3}).gallons()).toEqual(4.5);
   });
-  it("divide", function() {
+  it("should divide for each unit", function() {
     expect(measure({drops: 6.5}).divide({drops: 2}).drops()).toEqual(3.25);
     expect(measure({teaspoons: 6.5}).divide({teaspoons: 2}).teaspoons()).toEqual(3.25);
     expect(measure({tablespoons: 6.5}).divide({tablespoons: 2}).tablespoons()).toEqual(3.25);
