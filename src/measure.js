@@ -162,7 +162,7 @@
 		var lexer = new Lexer();
 
 		var num;
-		var unit;
+		var obj = {};
 
 		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
 			// add mixed numbers
@@ -170,37 +170,37 @@
 			num = eval(lexeme);
 		});
 		lexer.addRule(/(drop)/g, function () {
-			unit = 'drops';
+			obj.drops = num;
 		});
 		lexer.addRule(/(teaspoon|tsp\.|t\.)/g, function () {
-			unit = 'teaspoons';
+			obj.teaspoons = num;
 		});
 		lexer.addRule(/(tablespoon|tbsp\.|T\.)/g, function () {
-			unit = 'tablespoons';
+			obj.tablespoons = num;
 		});
 		lexer.addRule(/(fluidounce|fl\.oz\.|oz\.)/g, function () {
-			unit = 'fluidounces';
+			obj.fluidounces = num;
 		});
 		lexer.addRule(/(jigger)/g, function () {
-			unit = 'jiggers';
+			obj.jiggers = num;
 		});
 		lexer.addRule(/(gill|gi\.)/g, function () {
-			unit = 'gills';
+			obj.gills = num;
 		});
 		lexer.addRule(/(cup|C)/g, function () {
-			unit = 'cups';
+			obj.cups = num;
 		});
 		lexer.addRule(/(pint|pt\.)/g, function () {
-			unit = 'pints';
+			obj.pints = num;
 		});
 		lexer.addRule(/(fifth)/g, function () {
-			unit = 'fifths';
+			obj.fifths = num;
 		});
 		lexer.addRule(/(quart|qt\.)/g, function () {
-			unit = 'quarts';
+			obj.quarts = num;
 		});
 		lexer.addRule(/(gallon|gal\.)/g, function () {
-			unit = 'gallons';
+			obj.gallons = num;
 		});
 		lexer.addRule(/\s/g, function () {});
 		lexer.addRule(/([a-z]+)/g, function () {});
@@ -208,10 +208,6 @@
 		lexer.setInput(input);
 
 		lexer.lex();
-
-		// setup return object
-		var obj = {};
-		obj[unit] = num;
 
 		return obj;
 

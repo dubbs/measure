@@ -32,7 +32,7 @@ describe("parseOptionsFromString", function() {
     expect(Measure.prototype.parseOptionsFromString('2 1/4 tsp.')).toEqual({teaspoons: 2.25});
   });
   it("should parse multiple inputs", function() {
-    // expect(Measure.prototype.parseOptionsFromString('3 tablespoons and 1-3/4 teaspoons')).toEqual({tablespoons: 3, teaspoons: 1.75});
+    expect(Measure.prototype.parseOptionsFromString('3 tablespoons and 1-3/4 teaspoons')).toEqual({tablespoons: 3, teaspoons: 1.75});
   });
 
 });
