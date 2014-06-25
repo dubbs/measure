@@ -156,7 +156,7 @@
 
 	};
 
-	// lexer 
+	// lexer
 	Measure.prototype.parseOptionsFromString = function(input) {
 		
 		var lexer = new Lexer();
@@ -164,7 +164,9 @@
 		var num;
 		var unit;
 
-		lexer.addRule(/[0-9.\/]+/g, function (lexeme) {
+		lexer.addRule(/[0-9.\/ ]+/g, function (lexeme) {
+			// add mixed numbers
+			lexeme = lexeme.trim().split(' ').join('+');
 			num = eval(lexeme);
 		});
 		lexer.addRule(/(drop)/g, function () {

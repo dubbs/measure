@@ -26,4 +26,8 @@ describe("parseOptionsFromString", function() {
     expect(Measure.prototype.parseOptionsFromString('1 qt.')).toEqual({quarts: 1});
     expect(Measure.prototype.parseOptionsFromString('1 gal.')).toEqual({gallons: 1});
   });
+  it("should parse mixed numbers", function() {
+    expect(Measure.prototype.parseOptionsFromString('1 1/2 tsp.')).toEqual({teaspoons: 1.5});
+    expect(Measure.prototype.parseOptionsFromString('2 1/4 tsp.')).toEqual({teaspoons: 2.25});
+  });
 });
