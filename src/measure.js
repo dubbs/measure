@@ -1,19 +1,19 @@
 (function (window) {
 
 	function Measure(options) {
-		this.amount = {};
-		this.amount.units       = options.units       || 0;
-		this.amount.drops       = options.drops       || 0;
-		this.amount.teaspoons   = options.teaspoons   || 0;
-		this.amount.tablespoons = options.tablespoons || 0;
-		this.amount.fluidounces = options.fluidounces || 0;
-		this.amount.jiggers     = options.jiggers     || 0;
-		this.amount.gills       = options.gills       || 0;
-		this.amount.cups        = options.cups        || 0;
-		this.amount.pints       = options.pints       || 0;
-		this.amount.fifths      = options.fifths      || 0;
-		this.amount.quarts      = options.quarts      || 0;
-		this.amount.gallons     = options.gallons     || 0;
+		this.volume = {};
+		this.volume.units       = options.units       || 0;
+		this.volume.drops       = options.drops       || 0;
+		this.volume.teaspoons   = options.teaspoons   || 0;
+		this.volume.tablespoons = options.tablespoons || 0;
+		this.volume.fluidounces = options.fluidounces || 0;
+		this.volume.jiggers     = options.jiggers     || 0;
+		this.volume.gills       = options.gills       || 0;
+		this.volume.cups        = options.cups        || 0;
+		this.volume.pints       = options.pints       || 0;
+		this.volume.fifths      = options.fifths      || 0;
+		this.volume.quarts      = options.quarts      || 0;
+		this.volume.gallons     = options.gallons     || 0;
 
 		this.system = 'US';
 	}
@@ -73,32 +73,32 @@
 	// operations
 	Measure.prototype.add = function(input) {
 		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
-				this.amount[prop] += input[prop];
+			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
+				this.volume[prop] += input[prop];
 			}
 		}
 		return this;
 	};
 	Measure.prototype.subtract = function(input) {
 		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
-				this.amount[prop] -= input[prop];
+			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
+				this.volume[prop] -= input[prop];
 			}
 		}
 		return this;
 	};
 	Measure.prototype.multiply = function(input) {
 		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
-				this.amount[prop] *= input[prop];
+			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
+				this.volume[prop] *= input[prop];
 			}
 		}
 		return this;
 	};
 	Measure.prototype.divide = function(input) {
 		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.amount[prop] !== undefined) {
-				this.amount[prop] /= input[prop];
+			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
+				this.volume[prop] /= input[prop];
 			}
 		}
 		return this;
@@ -127,7 +127,7 @@
 			}
 
 			// add to total
-			total += (this.amount[element] * propTotal);
+			total += (this.volume[element] * propTotal);
 
 		}, this);
 
@@ -141,7 +141,7 @@
 		for (var prop in units) {
 			// init data
 			if (units.hasOwnProperty(prop)) {
-				this.amount[units[prop]] = 0;
+				this.volume[units[prop]] = 0;
 
 
 				if (typeof Measure.prototype[units[prop]] === 'undefined') {
@@ -167,49 +167,71 @@
 		var lexer = new Lexer();
 
 		var num = 0;
-		var obj = {};
+		var obj = {ml: 0, g: 0};
 
 		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
 			// add mixed numbers
 			lexeme = lexeme.trim().replace('-',' ').split(' ').join('+');
 			num = eval(lexeme);
 		});
-		lexer.addRule(/(drops?)/g, function () {
-			obj.drops = num;
+		// volume
+		// - metric
+		lexer.addRule(/(millilitre?)/g, function () {
+			obj.ml += num;
 		});
+		lexer.addRule(/(litre?)/g, function () {
+			obj.ml += num * 1000;
+		});
+		// - customary
 		lexer.addRule(/(teaspoons?|tsp\.|t\.)/g, function () {
-			obj.teaspoons = num;
+			obj.ml += num * 5;
 		});
 		lexer.addRule(/(tablespoons?|tbsp\.|T\.)/g, function () {
-			obj.tablespoons = num;
+			obj.ml += num * 15;
 		});
-		lexer.addRule(/(fluidounces?|fl\.oz\.|oz\.)/g, function () {
-			obj.fluidounces = num;
+		lexer.addRule(/(fluidounces?|fl\.oz\.)/g, function () {
+			obj.ml += num * 30;
 		});
-		lexer.addRule(/(jiggers?)/g, function () {
-			obj.jiggers = num;
-		});
-		lexer.addRule(/(gills?|gi\.)/g, function () {
-			obj.gills = num;
-		});
+		// lexer.addRule(/(jiggers?)/g, function () {
+		// 	obj.jiggers = num;
+		// });
+		// lexer.addRule(/(gills?|gi\.)/g, function () {
+		// 	obj.gills = num;
+		// });
 		lexer.addRule(/(cups?|C)/g, function () {
-			obj.cups = num;
+			obj.ml += 237;
 		});
 		lexer.addRule(/(pints?|pt\.)/g, function () {
-			obj.pints = num;
+			obj.ml += 473;
 		});
-		lexer.addRule(/(fifths?)/g, function () {
-			obj.fifths = num;
-		});
+		// lexer.addRule(/(fifths?)/g, function () {
+		// 	obj.fifths = num;
+		// });
 		lexer.addRule(/(quarts?|qt\.)/g, function () {
-			obj.quarts = num;
+			obj.ml += num * 946;
 		});
 		lexer.addRule(/(gallons?|gal\.)/g, function () {
-			obj.gallons = num;
+			obj.ml += num * 3785;
 		});
+		// mass
+		// - metric
+		lexer.addRule(/(kilograms?)/g, function () {
+			obj.g += num * 1000;
+		});
+		lexer.addRule(/(grams?)/g, function () {
+			obj.g += num;
+		});
+		// - customary
+		lexer.addRule(/(ounces?|oz\.)/g, function () {
+			obj.g += num * 28;
+		});
+		lexer.addRule(/(pounds?)/g, function () {
+			obj.g += num * 454;
+		});
+
 		lexer.addRule(/[^0-9]+/g, function () {
 			// if haven't set another value yet, assume its an arbitrary unit
-			if (Object.keys(obj).length === 0) {
+			if (obj.ml === 0 && obj.g === 0) {
 				obj.units = num;
 			}
 		});
@@ -218,6 +240,14 @@
 		lexer.setInput(input);
 
 		lexer.lex();
+
+		// cleanup
+		if (obj.ml === 0) {
+			delete obj.ml;
+		}
+		if (obj.g === 0) {
+			delete obj.g;
+		}
 
 		return obj;
 
