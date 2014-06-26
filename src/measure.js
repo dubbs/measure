@@ -192,12 +192,12 @@
 		lexer.addRule(/(fluidounces?|fl\.oz\.)/g, function () {
 			obj.ml += num * 30;
 		});
-		// lexer.addRule(/(jiggers?)/g, function () {
-		// 	obj.jiggers = num;
-		// });
-		// lexer.addRule(/(gills?|gi\.)/g, function () {
-		// 	obj.gills = num;
-		// });
+		lexer.addRule(/(shots?)/g, function () {
+			obj.ml += 44;
+		});
+		lexer.addRule(/(gills?|gi\.)/g, function () {
+			obj.ml += 118;
+		});
 		lexer.addRule(/(cups?|C)/g, function () {
 			obj.ml += 237;
 		});
@@ -215,17 +215,17 @@
 		});
 		// mass
 		// - metric
-		lexer.addRule(/(kilograms?)/g, function () {
+		lexer.addRule(/(kilograms?|kg\.?)/g, function () {
 			obj.g += num * 1000;
 		});
-		lexer.addRule(/(grams?)/g, function () {
+		lexer.addRule(/(grams?|g\.?)/g, function () {
 			obj.g += num;
 		});
 		// - customary
 		lexer.addRule(/(ounces?|oz\.)/g, function () {
 			obj.g += num * 28;
 		});
-		lexer.addRule(/(pounds?)/g, function () {
+		lexer.addRule(/(pounds?|lbs\.?)/g, function () {
 			obj.g += num * 454;
 		});
 
