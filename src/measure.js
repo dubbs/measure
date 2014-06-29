@@ -1,37 +1,20 @@
 (function (window) {
 
 	function Measure(options) {
-		this.volume = {};
-		this.volume.units       = options.units       || 0;
-		this.volume.drops       = options.drops       || 0;
-		this.volume.teaspoons   = options.teaspoons   || 0;
-		this.volume.tablespoons = options.tablespoons || 0;
-		this.volume.fluidounces = options.fluidounces || 0;
-		this.volume.jiggers     = options.jiggers     || 0;
-		this.volume.gills       = options.gills       || 0;
-		this.volume.cups        = options.cups        || 0;
-		this.volume.pints       = options.pints       || 0;
-		this.volume.fifths      = options.fifths      || 0;
-		this.volume.quarts      = options.quarts      || 0;
-		this.volume.gallons     = options.gallons     || 0;
-
-		this.system = 'US';
+		this.ml = options.ml;
 	}
 
-	Measure.prototype._units = [
-		'units',
-		'drops',
-		'teaspoons',
-		'tablespoons',
-		'fluidounces',
-		'jiggers',
-		'gills',
-		'cups',
-		'pints',
-		'fifths',
-		'quarts',
-		'gallons'
-	];
+	Measure.prototype.volumes = {
+		teaspoons: 5,
+		tablespoons: 15,
+		fluidounces: 30,
+		shots: 44,
+		gills: 118,
+		cups: 237,
+		pints: 473,
+		quarts: 946,
+		gallons: 3785
+	};
 
 	Measure.prototype.units = function() {
 		return this.totalByUnit('units');
@@ -72,97 +55,32 @@
 
 	// operations
 	Measure.prototype.add = function(input) {
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
-				this.volume[prop] += input[prop];
-			}
-		}
+		var options = Measure.parseOptionsFromString(input);
+		this.ml += options.ml;
 		return this;
 	};
 	Measure.prototype.subtract = function(input) {
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
-				this.volume[prop] -= input[prop];
-			}
-		}
+		var options = Measure.parseOptionsFromString(input);
+		this.ml -= options.ml;
 		return this;
 	};
 	Measure.prototype.multiply = function(input) {
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
-				this.volume[prop] *= input[prop];
-			}
-		}
+		this.ml *= input;
 		return this;
 	};
 	Measure.prototype.divide = function(input) {
-		for (var prop in input) {
-			if (input.hasOwnProperty(prop) && typeof this.volume[prop] !== undefined) {
-				this.volume[prop] /= input[prop];
-			}
-		}
+		this.ml /= input;
 		return this;
 	};
 
-
 	// totals
-
-	Measure.prototype.totalByUnit = function(element) {
-		var totalMl = this.totalByType('ml');
-		var baseMl = this.measurements[element][this.system].ml;
-		return Math.round((totalMl/baseMl + 0.00001) * 100) / 100;
-	};
-
-	Measure.prototype.totalByType = function(prop) {
-		var total = 0;
-
-		this._units.forEach(function (element) {
-
-			// find measurement as mls
-			var propTotal;
-			try {
-				propTotal = this.measurements[element][this.system][prop];
-			} catch (e) {
-				propTotal = this.measurements[element]['*'][prop];
-			}
-
-			// add to total
-			total += (this.volume[element] * propTotal);
-
-		}, this);
-
-		return total;		
-	};
-
-	// other
-
-	Measure.prototype.initProps = function(units) {
-		
-		for (var prop in units) {
-			// init data
-			if (units.hasOwnProperty(prop)) {
-				this.volume[units[prop]] = 0;
-
-
-				if (typeof Measure.prototype[units[prop]] === 'undefined') {
-					// init accessor
-					Measure.prototype[units[prop]] = (function(element){
-						return function () {
-							var totalMl = this.totalByType('ml');
-							var baseMl = this.measurements[element][this.system].ml;
-							return totalMl/baseMl;
-						};
-					}(units[prop]));
-		
-				}				
-			}
-
-		}
-
+	Measure.prototype.totalByUnit = function(unit) {
+		var ratio = this.ml/this.volumes[unit];
+		return Math.round((ratio + 0.00001) * 100) / 100;
 	};
 
 	// lexer
-	Measure.prototype.parseOptionsFromString = function(input) {
+	Measure.parseOptionsFromString = function(input) {
 		
 		var lexer = new Lexer();
 
@@ -193,20 +111,17 @@
 			obj.ml += num * 30;
 		});
 		lexer.addRule(/(shots?)/g, function () {
-			obj.ml += 44;
+			obj.ml += num * 44;
 		});
 		lexer.addRule(/(gills?|gi\.)/g, function () {
-			obj.ml += 118;
+			obj.ml += num * 118;
 		});
 		lexer.addRule(/(cups?|C)/g, function () {
-			obj.ml += 237;
+			obj.ml += num * 237;
 		});
 		lexer.addRule(/(pints?|pt\.)/g, function () {
-			obj.ml += 473;
+			obj.ml += num * 473;
 		});
-		// lexer.addRule(/(fifths?)/g, function () {
-		// 	obj.fifths = num;
-		// });
 		lexer.addRule(/(quarts?|qt\.)/g, function () {
 			obj.ml += num * 946;
 		});
@@ -253,96 +168,9 @@
 
 	};
 
-	Measure.prototype.ml = function() {
-		return this.totalByType('ml');
-	};
-
-	Measure.prototype.floz = function() {
-		return this.totalByType('oz');
-	};
-
-
-
-
-	Measure.prototype.measurements = {
-		units: {
-			"US": {
-				ml: 0,
-				oz: 0
-			}
-		},
-		drops: {
-			"US": {
-				ml: 0.05,
-				oz: 1/576
-			}
-		},
-		teaspoons: {
-			"US": {
-				ml: 4.93,
-				oz: 1/6
-			}
-		},
-		tablespoons: {
-			"US": {
-				ml: 14.79,
-				oz: 1/2
-			}
-		},
-		fluidounces: {
-			"US": {
-				ml: 29.57,
-				oz: 1
-			}
-		},
-		jiggers: {
-			"US": {
-				ml: 44.36,
-				oz: 1.5
-			}
-		},
-		gills: {
-			"US": {
-				ml: 118.29,
-				oz: 4
-			}
-		},
-		cups: {
-			"US": {
-				ml: 236.59,
-				oz: 8
-			}
-		},
-		pints: {
-			"US": {
-				ml: 473.18,
-				oz: 16
-			}
-		},
-		fifths: {
-			"US": {
-				ml: 750,
-				oz: 25.36
-			}
-		},
-		quarts: {
-			"US": {
-				ml: 946.35,
-				oz: 32
-			}
-		},
-		gallons: {
-			"US": {
-				ml: 3785.41,
-				oz: 128
-			}
-		}
-
-	};
-
 	// create
 	Measure.createFromString = function(options) {
-		options = this.parseOptionsFromString(options);
+		options = Measure.parseOptionsFromString(options);
 		return new Measure(options);
 	};
 	Measure.createFromObject = function(options) {
