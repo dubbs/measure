@@ -1,9 +1,17 @@
 {
   "name": "measure",
-  "version": "0.0.0",
+  "description": "Measurement unit converter for volume, mass and count.",
+  "version": "0.1.0",
   "homepage": "https://github.com/dubbs/measure",
   "authors": [
     "Kevin Warrington <kevin.warrington@gmail.com>"
+  ],
+  "keywords": [
+    "js",
+    "measure",
+    "volume",
+    "mass",
+    "converter"
   ],
   "license": "MIT",
   "ignore": [
