@@ -1,21 +1,38 @@
 (function (window) {
 
-	function Measure(options) {
-		this.ml = options.ml;
+	// US Customary
+
+	function roundUnits(ratio) {
+		return Math.round((ratio + 0.00001) * 100) / 100;
 	}
 
-	Measure.prototype.volumes = {
-		teaspoons: 5,
-		tablespoons: 15,
-		fluidounces: 30,
-		shots: 44,
-		gills: 118,
-		cups: 237,
-		pints: 473,
-		fifth: 750,
-		quarts: 946,
-		gallons: 3785
+	var mlPerGallon = 3785.41;
+	var mlPerOunce = 29.5735;
+
+	var measureVolumeUSCustomary = {
+		teaspoons: roundUnits(mlPerOunce / 6),
+		tablespoons: roundUnits(mlPerOunce / 2),
+		fluidounces: roundUnits(mlPerOunce),
+		shots: roundUnits(mlPerOunce * 1.5),
+		gills: roundUnits(mlPerOunce * 4),
+		cups: roundUnits(mlPerGallon / 16),
+		pints: roundUnits(mlPerGallon / 8),
+		fifths: roundUnits(mlPerGallon / 5),
+		quarts: roundUnits(mlPerGallon / 4),
+		gallons: roundUnits(mlPerGallon)
 	};
+
+	window.MeasureVolumeUSCustomary = measureVolumeUSCustomary;
+
+}(this));
+
+
+
+(function (window) {
+
+	function Measure(options) {
+		this.ml = options && options.ml || 0;
+	}
 
 	Measure.prototype.units = function() {
 		return this.totalByUnit('units');
@@ -76,17 +93,20 @@
 
 	// totals
 	Measure.prototype.totalByUnit = function(unit) {
-		var ratio = this.ml/this.volumes[unit];
+		var ratio = this.ml/Measure.volume[unit];
 		return Math.round((ratio + 0.00001) * 100) / 100;
 	};
 
 	// lexer
 	Measure.parseOptionsFromString = function(input) {
-		
+
+
 		var lexer = new Lexer();
 
 		var num = 0;
 		var obj = {ml: 0, g: 0};
+
+		var volume = this.volume;
 
 		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
 			// add mixed numbers
@@ -118,34 +138,34 @@
 		});
 		// - customary
 		lexer.addRule(/(teaspoons?|tsp\.|t\.)/g, function () {
-			obj.ml += num * 5;
+			obj.ml += num * volume.teaspoons;
 		});
 		lexer.addRule(/(tablespoons?|tbsp\.|T\.)/g, function () {
-			obj.ml += num * 15;
+			obj.ml += num * volume.tablespoons;
 		});
 		lexer.addRule(/(fluidounces?|fl\.oz\.)/g, function () {
-			obj.ml += num * 30;
+			obj.ml += num * volume.fluidounces;
 		});
 		lexer.addRule(/(shots?)/g, function () {
-			obj.ml += num * 44;
+			obj.ml += num * volume.shots;
 		});
 		lexer.addRule(/(gills?|gi\.)/g, function () {
-			obj.ml += num * 118;
+			obj.ml += num * volume.gills;
 		});
 		lexer.addRule(/(cups?|C)/g, function () {
-			obj.ml += num * 237;
+			obj.ml += num * volume.cups;
 		});
 		lexer.addRule(/(pints?|pt\.)/g, function () {
-			obj.ml += num * 473;
+			obj.ml += num * volume.pints;
 		});
 		lexer.addRule(/(fifths?)/g, function () {
-			obj.ml += num * 750;
+			obj.ml += num * volume.fifths;
 		});
 		lexer.addRule(/(quarts?\s|quart$|qt\.)/g, function () {
-			obj.ml += num * 946;
+			obj.ml += num * volume.quarts;
 		});
 		lexer.addRule(/(gallons?|gal\.)/g, function () {
-			obj.ml += num * 3785;
+			obj.ml += num * volume.gallons;
 		});
 		// mass
 		// - metric
@@ -193,6 +213,7 @@
 
 	};
 
+
 	// create
 	Measure.createFromString = function(options) {
 		options = Measure.parseOptionsFromString(options);
@@ -202,9 +223,7 @@
 		return new Measure(options);
 	};
 
-
 	var measure = function (options) {
-
 		if (typeof(options) === 'string') {
 			return Measure.createFromString(options);
 		}
@@ -213,6 +232,9 @@
 		}
 		return new Measure();
 	};
+
+	// set volume units, in future will allow pluggable units
+	Measure.volume = window.MeasureVolumeUSCustomary;
 
 	window.measure = measure;
 

@@ -11,16 +11,16 @@ describe("parseOptionsFromString", function() {
       expect(Measure.parseOptionsFromString('1 hectolitre')).toEqual({ml: 100000});
       expect(Measure.parseOptionsFromString('1 kilolitre')).toEqual({ml: 1000000});
       // customary
-      expect(Measure.parseOptionsFromString('1 teaspoon')).toEqual({ml: 5});
-      expect(Measure.parseOptionsFromString('1 tablespoon')).toEqual({ml: 15});
-      expect(Measure.parseOptionsFromString('1 fluidounce')).toEqual({ml: 30});
-      expect(Measure.parseOptionsFromString('1 shot')).toEqual({ml: 44});
-      expect(Measure.parseOptionsFromString('1 gill')).toEqual({ml: 118});
-      expect(Measure.parseOptionsFromString('1 cup')).toEqual({ml: 237});
-      expect(Measure.parseOptionsFromString('1 pint')).toEqual({ml: 473});
-      expect(Measure.parseOptionsFromString('1 fifth')).toEqual({ml: 750});
-      expect(Measure.parseOptionsFromString('1 quart')).toEqual({ml: 946});
-      expect(Measure.parseOptionsFromString('1 gallon')).toEqual({ml: 3785});
+      expect(Measure.parseOptionsFromString('1 teaspoon')).toEqual({ml: Measure.volume.teaspoons});
+      expect(Measure.parseOptionsFromString('1 tablespoon')).toEqual({ml: Measure.volume.tablespoons});
+      expect(Measure.parseOptionsFromString('1 fluidounce')).toEqual({ml: Measure.volume.fluidounces});
+      expect(Measure.parseOptionsFromString('1 shot')).toEqual({ml: Measure.volume.shots});
+      expect(Measure.parseOptionsFromString('1 gill')).toEqual({ml: Measure.volume.gills});
+      expect(Measure.parseOptionsFromString('1 cup')).toEqual({ml: Measure.volume.cups});
+      expect(Measure.parseOptionsFromString('1 pint')).toEqual({ml: Measure.volume.pints});
+      expect(Measure.parseOptionsFromString('1 fifth')).toEqual({ml: Measure.volume.fifths});
+      expect(Measure.parseOptionsFromString('1 quart')).toEqual({ml: Measure.volume.quarts});
+      expect(Measure.parseOptionsFromString('1 gallon')).toEqual({ml: Measure.volume.gallons});
     });
     it("should parse abbreviated inputs", function() {
       // metric
@@ -32,15 +32,15 @@ describe("parseOptionsFromString", function() {
       expect(Measure.parseOptionsFromString('1 hl')).toEqual({ml: 100000});
       expect(Measure.parseOptionsFromString('1 kl')).toEqual({ml: 1000000});
       // customary
-      expect(Measure.parseOptionsFromString('1 tsp.')).toEqual({ml: 5});
-      expect(Measure.parseOptionsFromString('1 t.')).toEqual({ml: 5});
-      expect(Measure.parseOptionsFromString('1 tbsp.')).toEqual({ml: 15});
-      expect(Measure.parseOptionsFromString('1 T.')).toEqual({ml: 15});
-      expect(Measure.parseOptionsFromString('1 fl.oz.')).toEqual({ml: 30});
-      expect(Measure.parseOptionsFromString('1 gi.')).toEqual({ml: 118});
-      expect(Measure.parseOptionsFromString('1 pt.')).toEqual({ml: 473});
-      expect(Measure.parseOptionsFromString('1 qt.')).toEqual({ml: 946});
-      expect(Measure.parseOptionsFromString('1 gal.')).toEqual({ml: 3785});
+      expect(Measure.parseOptionsFromString('1 tsp.')).toEqual({ml: Measure.volume.teaspoons});
+      expect(Measure.parseOptionsFromString('1 t.')).toEqual({ml: Measure.volume.teaspoons});
+      expect(Measure.parseOptionsFromString('1 tbsp.')).toEqual({ml: Measure.volume.tablespoons});
+      expect(Measure.parseOptionsFromString('1 T.')).toEqual({ml: Measure.volume.tablespoons});
+      expect(Measure.parseOptionsFromString('1 fl.oz.')).toEqual({ml: Measure.volume.fluidounces});
+      expect(Measure.parseOptionsFromString('1 gi.')).toEqual({ml: Measure.volume.gills});
+      expect(Measure.parseOptionsFromString('1 pt.')).toEqual({ml: Measure.volume.pints});
+      expect(Measure.parseOptionsFromString('1 qt.')).toEqual({ml: Measure.volume.quarts});
+      expect(Measure.parseOptionsFromString('1 gal.')).toEqual({ml: Measure.volume.gallons});
     });
 
   });
@@ -77,13 +77,13 @@ describe("parseOptionsFromString", function() {
   describe("all", function() {
     it("should parse mixed numbers", function() {
       // customary
-      expect(Measure.parseOptionsFromString('1 1/2 tsp.')).toEqual({ml: 7.5});
-      expect(Measure.parseOptionsFromString('1-3/4 tsp.')).toEqual({ml: 8.75});
-      expect(Measure.parseOptionsFromString('2 1/4 tsp.')).toEqual({ml: 11.25});
+      expect(Measure.parseOptionsFromString('1 1/2 tsp.')).toEqual({ml: Measure.volume.teaspoons * 1.5});
+      expect(Measure.parseOptionsFromString('1-3/4 tsp.')).toEqual({ml: Measure.volume.teaspoons * 1.75});
+      expect(Measure.parseOptionsFromString('2 1/4 tsp.')).toEqual({ml: Measure.volume.teaspoons * 2.25});
     });
     it("should parse multiple inputs", function() {
       // customary
-      expect(Measure.parseOptionsFromString('3 tablespoons and 1-3/4 teaspoons')).toEqual({ml: 53.75});
+      expect(Measure.parseOptionsFromString('3 tablespoons and 1-3/4 teaspoons')).toEqual({ml: (Measure.volume.tablespoons * 3 + Measure.volume.teaspoons * 1.75)});
     });
   });
 });
