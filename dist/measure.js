@@ -223,6 +223,24 @@ function Lexer(defunct) {
 	Measure.prototype.milliliters = function() {
 		return this.ml;
 	};
+	Measure.prototype.centiliters = function() {
+		return this.ml / 10;
+	};
+	Measure.prototype.deciliters = function() {
+		return this.ml / 100;
+	};
+	Measure.prototype.liters = function() {
+		return this.ml / 1000;
+	};
+	Measure.prototype.decaliters = function() {
+		return this.ml / 10000;
+	};
+	Measure.prototype.hectoliters = function() {
+		return this.ml / 100000;
+	};
+	Measure.prototype.kiloliters = function() {
+		return this.ml / 1000000;
+	};
 	Measure.prototype.drops = function() {
 		return this.totalByUnit('drops');
 	};
@@ -258,7 +276,7 @@ function Lexer(defunct) {
 	};
 
 	// mass
-	Measure.prototype.g = function() {
+	Measure.prototype.grams = function() {
 		return this.g;
 	};
 	Measure.prototype.drams = function() {
