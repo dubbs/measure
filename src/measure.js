@@ -9,7 +9,7 @@
 	var mlPerGallon = 3785.41;
 	var mlPerOunce = 29.5735;
 
-	var measureVolumeUSCustomary = {
+	var volumes = {
 		teaspoons: roundUnits(mlPerOunce / 6),
 		tablespoons: roundUnits(mlPerOunce / 2),
 		fluidounces: roundUnits(mlPerOunce),
@@ -22,11 +22,38 @@
 		gallons: roundUnits(mlPerGallon)
 	};
 
-	window.MeasureVolumeUSCustomary = measureVolumeUSCustomary;
+	window.MeasureVolumeUSCustomary = volumes;
 
 }(this));
 
 
+(function (window) {
+
+	// Imperial
+
+	function roundUnits(ratio) {
+		return Math.round((ratio + 0.00001) * 100) / 100;
+	}
+
+	var mlPerGallon = 4546.09; // 10 pounds of water in 1824
+	var mlPerOunce = 28.4131;
+
+	var volumes = {
+		teaspoons: roundUnits(mlPerOunce / 6),
+		tablespoons: roundUnits(mlPerOunce / 2),
+		fluidounces: roundUnits(mlPerOunce),
+		shots: roundUnits(mlPerOunce * 1.5),
+		gills: roundUnits(mlPerGallon / 32),
+		cups: roundUnits(mlPerGallon / 16),
+		pints: roundUnits(mlPerGallon / 8),
+		fifths: roundUnits(mlPerGallon / 5),
+		quarts: roundUnits(mlPerGallon / 4),
+		gallons: roundUnits(mlPerGallon)
+	};
+
+	window.MeasureVolumeImperial = volumes;
+
+}(this));
 
 (function (window) {
 
