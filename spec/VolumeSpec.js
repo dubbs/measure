@@ -1,6 +1,6 @@
-describe("operations", function() {
+describe("volume", function() {
   beforeEach(function() {});
-  it("should add for each unit", function() {
+  it("should add for customary units", function() {
     expect(measure('1 teaspoon').add('1 teaspoon').teaspoons()).toEqual(2);
     expect(measure('1 tablespoon').add('1 tablespoon').tablespoons()).toEqual(2);
     expect(measure('1 fluidounce').add('1 fluidounce').fluidounces()).toEqual(2);
@@ -10,7 +10,7 @@ describe("operations", function() {
     expect(measure('1 quart').add('1 quart').quarts()).toEqual(2);
     expect(measure('1 gallon').add('1 gallon').gallons()).toEqual(2);
   });
-  it("should subtract for each unit", function() {
+  it("should subtract for customary units", function() {
     expect(measure('3 1/4 teaspoon').subtract('2 3/4 teaspoon').teaspoons()).toEqual(0.5);
     expect(measure('3 1/4 tablespoon').subtract('2 3/4 tablespoon').tablespoons()).toEqual(0.5);
     expect(measure('3 1/4 fluidounce').subtract('2 3/4 fluidounce').fluidounces()).toEqual(0.5);
@@ -20,7 +20,7 @@ describe("operations", function() {
     expect(measure('3 1/4 quart').subtract('2 3/4 quart').quarts()).toEqual(0.5);
     expect(measure('3 1/4 gallon').subtract('2 3/4 gallon').gallons()).toEqual(0.5);
   });
-  it("should multiply for each unit", function() {
+  it("should multiply for customary units", function() {
     expect(measure('1 1/2 teaspoon').multiply(3).teaspoons()).toEqual(4.5);
     expect(measure('1 1/2 tablespoon').multiply(3).tablespoons()).toEqual(4.5);
     expect(measure('1 1/2 fluidounce').multiply(3).fluidounces()).toEqual(4.5);
@@ -30,7 +30,7 @@ describe("operations", function() {
     expect(measure('1 1/2 quart').multiply(3).quarts()).toEqual(4.5);
     expect(measure('1 1/2 gallon').multiply(3).gallons()).toEqual(4.5);
   });
-  it("should divide for each unit", function() {
+  it("should divide for customary units", function() {
     expect(measure('6 1/2 teaspoon').divide(2).teaspoons()).toEqual(3.25);
     expect(measure('6 1/2 tablespoon').divide(2).tablespoons()).toEqual(3.25);
     expect(measure('6 1/2 fluidounce').divide(2).fluidounces()).toEqual(3.25);

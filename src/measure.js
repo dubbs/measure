@@ -9,7 +9,7 @@
 	var mlPerGallon = 3785.41;
 	var mlPerOunce = 29.5735;
 
-	var volumes = {
+	var volume = {
 		teaspoons: roundUnits(mlPerOunce / 6),
 		tablespoons: roundUnits(mlPerOunce / 2),
 		fluidounces: roundUnits(mlPerOunce),
@@ -22,7 +22,19 @@
 		gallons: roundUnits(mlPerGallon)
 	};
 
-	window.MeasureVolumeUSCustomary = volumes;
+	// US Avoirdupois 
+
+	var gPerPound = 453.592;
+
+	var mass = {
+		drams: roundUnits(gPerPound / 256),
+		ounces: roundUnits(gPerPound / 16),
+		pounds: roundUnits(gPerPound),
+		quarters: roundUnits(gPerPound * 25)
+	};
+
+	window.MeasureVolumeUSCustomary = volume;
+	window.MeasureMassUSCustomary = mass;
 
 }(this));
 
@@ -59,10 +71,12 @@
 
 	function Measure(options) {
 		this.ml = options && options.ml || 0;
+		this.g = options && options.g || 0;
 	}
 
-	Measure.prototype.units = function() {
-		return this.totalByUnit('units');
+	// volume
+	Measure.prototype.milliliters = function() {
+		return this.ml;
 	};
 	Measure.prototype.drops = function() {
 		return this.totalByUnit('drops');
@@ -98,29 +112,67 @@
 		return this.totalByUnit('gallons');
 	};
 
+	// mass
+	Measure.prototype.g = function() {
+		return this.g;
+	};
+	Measure.prototype.drams = function() {
+		return this.totalMassByUnit('drams');
+	};
+	Measure.prototype.ounces = function() {
+		return this.totalMassByUnit('ounces');
+	};
+	Measure.prototype.pounds = function() {
+		return this.totalMassByUnit('pounds');
+	};
+	Measure.prototype.quarters = function() {
+		return this.totalMassByUnit('quarters');
+	};
+
+	// count
+	Measure.prototype.units = function() {
+		return this.totalByUnit('units');
+	};	
+
 	// operations
 	Measure.prototype.add = function(input) {
 		var options = Measure.parseOptionsFromString(input);
-		this.ml += options.ml;
+		if (options.ml) {
+			this.ml += options.ml;
+		}
+		if (options.g) {
+			this.g += options.g;
+		}
 		return this;
 	};
 	Measure.prototype.subtract = function(input) {
 		var options = Measure.parseOptionsFromString(input);
-		this.ml -= options.ml;
+		if (options.ml) {
+			this.ml -= options.ml;
+		}
+		if (options.g) {
+			this.g -= options.g;
+		}
 		return this;
 	};
 	Measure.prototype.multiply = function(input) {
 		this.ml *= input;
+		this.g *= input;
 		return this;
 	};
 	Measure.prototype.divide = function(input) {
 		this.ml /= input;
+		this.g /= input;
 		return this;
 	};
 
 	// totals
 	Measure.prototype.totalByUnit = function(unit) {
 		var ratio = this.ml/Measure.volume[unit];
+		return Math.round((ratio + 0.00001) * 100) / 100;
+	};
+	Measure.prototype.totalMassByUnit = function(unit) {
+		var ratio = this.g/Measure.mass[unit];
 		return Math.round((ratio + 0.00001) * 100) / 100;
 	};
 
@@ -134,6 +186,7 @@
 		var obj = {ml: 0, g: 0};
 
 		var volume = this.volume;
+		var mass = this.mass;
 
 		lexer.addRule(/[0-9.\/ -]+/g, function (lexeme) {
 			// add mixed numbers
@@ -204,16 +257,16 @@
 		});
 		// - customary
 		lexer.addRule(/(drams?|dr)/g, function () {
-			obj.g += num * 2;
+			obj.g += num * mass.drams;
 		});
 		lexer.addRule(/(ounces?|oz\.)/g, function () {
-			obj.g += num * 28;
+			obj.g += num * mass.ounces;
 		});
 		lexer.addRule(/(pounds?|lbs\.?)/g, function () {
-			obj.g += num * 454;
+			obj.g += num * mass.pounds;
 		});
 		lexer.addRule(/(quarters?|qr)/g, function () {
-			obj.g += num * 11340;
+			obj.g += num * mass.quarters;
 		});
 
 		lexer.addRule(/[^0-9]+/g, function () {
@@ -262,6 +315,7 @@
 
 	// set volume units, in future will allow pluggable units
 	Measure.volume = window.MeasureVolumeUSCustomary;
+	Measure.mass = window.MeasureMassUSCustomary;
 
 	window.measure = measure;
 

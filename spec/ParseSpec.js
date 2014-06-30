@@ -50,10 +50,10 @@ describe("parseOptionsFromString", function() {
       expect(Measure.parseOptionsFromString('1 gram')).toEqual({g: 1});
       expect(Measure.parseOptionsFromString('1 kilogram')).toEqual({g: 1000});
       // customary
-      expect(Measure.parseOptionsFromString('1 dram')).toEqual({g: 2});
-      expect(Measure.parseOptionsFromString('1 ounce')).toEqual({g: 28});
-      expect(Measure.parseOptionsFromString('1 pound')).toEqual({g: 454});
-      expect(Measure.parseOptionsFromString('1 quarter')).toEqual({g: 11340});
+      expect(Measure.parseOptionsFromString('1 dram')).toEqual({g: Measure.mass.drams});
+      expect(Measure.parseOptionsFromString('1 ounce')).toEqual({g: Measure.mass.ounces});
+      expect(Measure.parseOptionsFromString('1 pound')).toEqual({g: Measure.mass.pounds});
+      expect(Measure.parseOptionsFromString('1 quarter')).toEqual({g: Measure.mass.quarters});
     });
     it("should parse abbreviated inputs", function() {
       // metric
@@ -62,11 +62,11 @@ describe("parseOptionsFromString", function() {
       expect(Measure.parseOptionsFromString('1 kg')).toEqual({g: 1000});
       expect(Measure.parseOptionsFromString('1 kg.')).toEqual({g: 1000});
       // customary
-      expect(Measure.parseOptionsFromString('1 dr')).toEqual({g: 2});
-      expect(Measure.parseOptionsFromString('1 oz.')).toEqual({g: 28});
-      expect(Measure.parseOptionsFromString('1 lbs')).toEqual({g: 454});
-      expect(Measure.parseOptionsFromString('1 lbs.')).toEqual({g: 454});
-      expect(Measure.parseOptionsFromString('1 qr')).toEqual({g: 11340});
+      expect(Measure.parseOptionsFromString('1 dr')).toEqual({g: Measure.mass.drams});
+      expect(Measure.parseOptionsFromString('1 oz.')).toEqual({g: Measure.mass.ounces});
+      expect(Measure.parseOptionsFromString('1 lbs')).toEqual({g: Measure.mass.pounds});
+      expect(Measure.parseOptionsFromString('1 lbs.')).toEqual({g: Measure.mass.pounds});
+      expect(Measure.parseOptionsFromString('1 qr')).toEqual({g: Measure.mass.quarters});
     });
   });
   describe("count", function() {
