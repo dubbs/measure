@@ -2,9 +2,9 @@
 
 Library for converting between measurements.
 
-## Volume
+## US Customary
 
-### US Customary
+### Volume
 
 ```js
 // long inputs
@@ -17,10 +17,26 @@ measure('1 tbsp.').teaspoons() // 3
 
 // multiple inputs
 measure('2 cups and 1 pint').quarts() // 1
-
 ```
 
-### Metric
+### Mass
+
+```js
+// long inputs
+measure('1 ounce').ounces() // 1
+measure('1 pound').ounces() // 16
+
+// abbrev. inputs
+measure('1 1/2 oz.').ounces() // 1.5
+measure('1 lbs.').pounds() // 1
+
+// multiple inputs
+measure('7 pounds 8 ounces').ounces() // 120
+```
+
+## Metric
+
+### Volume
 
 ```js
 // long inputs
@@ -33,10 +49,25 @@ measure('1 l').milliliters() // 1000
 
 // multiple inputs
 measure('1 liter and 1 centiliter').milliliters() // 1010
-
 ```
 
-### Operations
+### Mass
+
+```js
+// long inputs
+measure('1 gram').grams() // 1
+measure('1 kilogram').kilograms() // 1
+
+// abbrev. inputs
+measure('1 g.').grams() // 1
+measure('1 kg.').kilograms() // 1
+
+// multiple inputs
+measure('3 kilograms and 2 grams').kilograms() // 3.002
+```
+
+
+## Operations
 
 ```js
 measure('1 teaspoon').add('1 teaspoon').teaspoons(); // 2

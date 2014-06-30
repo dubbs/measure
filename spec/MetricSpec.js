@@ -41,7 +41,7 @@ describe("Metric", function() {
     });
     it("should provide output for mass units", function() {
       expect(measure('1 gram').grams()).toEqual(1);
-      // expect(measure('1 kilogram').kilograms()).toEqual(1);
+      expect(measure('1 kilogram').kilograms()).toEqual(1);
     });
   });
 });

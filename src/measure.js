@@ -134,6 +134,9 @@
 	Measure.prototype.grams = function() {
 		return this.g;
 	};
+	Measure.prototype.kilograms = function() {
+		return this.g / 1000;
+	};
 	Measure.prototype.drams = function() {
 		return this.totalMassByUnit('drams');
 	};
