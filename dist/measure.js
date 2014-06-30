@@ -157,6 +157,7 @@ function Lexer(defunct) {
 		gills: 118,
 		cups: 237,
 		pints: 473,
+		fifth: 750,
 		quarts: 946,
 		gallons: 3785
 	};
@@ -239,11 +240,26 @@ function Lexer(defunct) {
 		});
 		// volume
 		// - metric
-		lexer.addRule(/(millilitre?)/g, function () {
+		lexer.addRule(/millilit(re|er)s?|ml/g, function () {
 			obj.ml += num;
 		});
-		lexer.addRule(/(litre?)/g, function () {
+		lexer.addRule(/centilit(re|er)s?|cl/g, function () {
+			obj.ml += num * 10;
+		});
+		lexer.addRule(/decilit(re|er)s?|dl/g, function () {
+			obj.ml += num * 100;
+		});
+		lexer.addRule(/lit(re|er)s?|l\s|l$/g, function () {
 			obj.ml += num * 1000;
+		});
+		lexer.addRule(/decalit(re|er)s?|dal/g, function () {
+			obj.ml += num * 10000;
+		});
+		lexer.addRule(/hectolit(re|er)s?|hl/g, function () {
+			obj.ml += num * 100000;
+		});
+		lexer.addRule(/kilolit(re|er)s?|kl/g, function () {
+			obj.ml += num * 1000000;
 		});
 		// - customary
 		lexer.addRule(/(teaspoons?|tsp\.|t\.)/g, function () {
@@ -267,7 +283,10 @@ function Lexer(defunct) {
 		lexer.addRule(/(pints?|pt\.)/g, function () {
 			obj.ml += num * 473;
 		});
-		lexer.addRule(/(quarts?|qt\.)/g, function () {
+		lexer.addRule(/(fifths?)/g, function () {
+			obj.ml += num * 750;
+		});
+		lexer.addRule(/(quarts?\s|quart$|qt\.)/g, function () {
 			obj.ml += num * 946;
 		});
 		lexer.addRule(/(gallons?|gal\.)/g, function () {
@@ -282,11 +301,17 @@ function Lexer(defunct) {
 			obj.g += num;
 		});
 		// - customary
+		lexer.addRule(/(drams?|dr)/g, function () {
+			obj.g += num * 2;
+		});
 		lexer.addRule(/(ounces?|oz\.)/g, function () {
 			obj.g += num * 28;
 		});
 		lexer.addRule(/(pounds?|lbs\.?)/g, function () {
 			obj.g += num * 454;
+		});
+		lexer.addRule(/(quarters?|qr)/g, function () {
+			obj.g += num * 11340;
 		});
 
 		lexer.addRule(/[^0-9]+/g, function () {
