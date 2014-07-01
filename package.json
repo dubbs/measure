@@ -1,6 +1,6 @@
 {
   "name": "measure",
-  "description": "Measurement unit converter for volume, mass and count.",
+  "description": "Library for converting between units (volume, mass and count) and unit systems (US, Imperial, Metric)",
   "version": "0.1.4",
   "main": "index.js",
   "scripts": {
