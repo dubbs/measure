@@ -1,4 +1,7 @@
 describe("US Customary", function() {
+  beforeEach(function () {
+    Measure.setUnitSystem('US');
+  });
   describe("input", function() {
     it("should parse long volume inputs", function() {
       expect(Measure.parseOptionsFromString('1 teaspoon')).toEqual({ml: Measure.volume.teaspoons});
