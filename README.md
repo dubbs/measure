@@ -1,17 +1,25 @@
 # measure [![Build Status](https://travis-ci.org/dubbs/measure.png)](https://travis-ci.org/dubbs/measure)
 
-Library for converting between measurements.
+measure is a library for converting between units and unit systems.
+
+It was created out of the need to adjust recipe amounts based on *servings* on the client-side, while also providing various output types.
+
+There are some inconsistencies between US and Imperial systems.  One example would be, a UK "pint" is 568ml, while a US "pint" is 473ml.  There are many more.  Because of this reason, it is important to state the unit system your are starting with when developing a recipe, unless you are using metric.
 
 ## Unit Systems
 
-Measure uses US Customary units as its default unit system.
+### Customary (US)
+
+To use US customary units (default):
 
 ```js
 measure('1 teaspoon').milliliters() // 4.93
 measure('1 teaspoon', 'US').milliliters() // 4.93
 ```
 
-To use the imperial unit system
+### Imperial (UK and CAN)
+
+To use the Imperial units:
 
 ```js
 measure('1 teaspoon', 'Imperial').milliliters() // 4.74
@@ -88,6 +96,8 @@ measure('6 1/2 teaspoon').divide(2).teaspoons(); // 3.25
 
 ## Contributing
 
+Grunt is used for build and tests, JSHint to enforce style.
+
 ### Install Dependencies
 
 ```
@@ -99,3 +109,12 @@ npm install && bower install
 ```
 grunt test
 ```
+
+### Build
+
+```
+grunt build
+```
+
+
+
