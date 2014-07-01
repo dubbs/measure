@@ -172,10 +172,13 @@ function Lexer(defunct) {
 	var gPerPound = 453.592;
 
 	var mass = {
+		grains: roundUnits(gPerPound / 7000),
 		drams: roundUnits(gPerPound / 256),
 		ounces: roundUnits(gPerPound / 16),
 		pounds: roundUnits(gPerPound),
-		quarters: roundUnits(gPerPound * 25)
+		quarters: roundUnits(gPerPound * 25),
+		hundredweights: roundUnits(gPerPound * 100),
+		ton: roundUnits(gPerPound * 2000)
 	};
 
 	window.MeasureVolumeUSCustomary = volume;
@@ -208,7 +211,22 @@ function Lexer(defunct) {
 		gallons: roundUnits(mlPerGallon)
 	};
 
+	// Imperial Avoirdupois 
+
+	var gPerPound = 453.592;
+
+	var mass = {
+		drams: roundUnits(gPerPound / 256),
+		ounces: roundUnits(gPerPound / 16),
+		pounds: roundUnits(gPerPound),
+		stones: roundUnits(gPerPound * 14),
+		quarters: roundUnits(gPerPound * 28),
+		hundredweights: roundUnits(gPerPound * 112),
+		ton: roundUnits(gPerPound * 2240)
+	};
+
 	window.MeasureVolumeImperial = volumes;
+	window.MeasureMassImperial = mass;
 
 }(this));
 
@@ -278,6 +296,9 @@ function Lexer(defunct) {
 	// mass
 	Measure.prototype.grams = function() {
 		return this.g;
+	};
+	Measure.prototype.kilograms = function() {
+		return this.g / 1000;
 	};
 	Measure.prototype.drams = function() {
 		return this.totalMassByUnit('drams');
@@ -456,6 +477,19 @@ function Lexer(defunct) {
 
 	};
 
+	// options
+	Measure.setUnitSystem = function (unitSystem) {
+		switch(unitSystem) {
+		case 'Imperial':
+			Measure.volume = window.MeasureVolumeImperial;
+			Measure.mass = window.MeasureMassImperial;
+			break;
+		default: // US
+			Measure.volume = window.MeasureVolumeUSCustomary;
+			Measure.mass = window.MeasureMassUSCustomary;
+			break;
+		}
+	};
 
 	// create
 	Measure.createFromString = function(options) {
@@ -466,7 +500,12 @@ function Lexer(defunct) {
 		return new Measure(options);
 	};
 
-	var measure = function (options) {
+	var measure = function (options, unitSystem) {
+		if (unitSystem) {
+			Measure.setUnitSystem(unitSystem);
+		} else {
+			Measure.setUnitSystem('US');
+		}
 		if (typeof(options) === 'string') {
 			return Measure.createFromString(options);
 		}
@@ -475,10 +514,6 @@ function Lexer(defunct) {
 		}
 		return new Measure();
 	};
-
-	// set volume units, in future will allow pluggable units
-	Measure.volume = window.MeasureVolumeUSCustomary;
-	Measure.mass = window.MeasureMassUSCustomary;
 
 	window.measure = measure;
 
