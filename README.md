@@ -116,5 +116,8 @@ grunt test
 grunt build
 ```
 
+## Influences
+
+The great moment.js
 
 
