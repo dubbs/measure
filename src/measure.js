@@ -256,10 +256,10 @@
 			obj.ml += num * 1000000;
 		});
 		// - customary
-		lexer.addRule(/(teaspoons?|tsp\.|t\.)/g, function () {
+		lexer.addRule(/(teaspoons?|tsp\.?|t\.)/g, function () {
 			obj.ml += num * volume.teaspoons;
 		});
-		lexer.addRule(/(tablespoons?|tbsp\.|T\.)/g, function () {
+		lexer.addRule(/(tablespoons?|tbsp\.?|T\.)/g, function () {
 			obj.ml += num * volume.tablespoons;
 		});
 		lexer.addRule(/(fluidounces?|fl\.oz\.)/g, function () {
@@ -271,7 +271,7 @@
 		lexer.addRule(/(gills?|gi\.)/g, function () {
 			obj.ml += num * volume.gills;
 		});
-		lexer.addRule(/(cups?|C)/g, function () {
+		lexer.addRule(/(cups?|cup$|C)/g, function () {
 			obj.ml += num * volume.cups;
 		});
 		lexer.addRule(/(pints?|pt\.)/g, function () {

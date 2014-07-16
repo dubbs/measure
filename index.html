@@ -1,4 +1,69 @@
-
-<script src="bower_components/lexer/lexer.js"></script>
-<script src="src/measure.js"></script>
-
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="bower_components/lexer/lexer.js"></script>
+	<script src="src/measure.js"></script>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+	<style>
+	html { font-size: 300%; }
+	body { padding: 100px; text-align: center; }
+	select { -webkit-appearance: none; padding-left: 10px; }
+	input, select { width: 400px; }
+	</style>
+</head>
+<body>
+		<p>
+			<input type="text" placeholder="eg. 1/2 cup" onkeyup="onKeyUp(this)">
+			as
+			<select id="select" onchange="onChange(this)">
+				<option value="1">teaspoons</option>
+				<option value="2">tablespoons</option>
+				<option value="3">fluidounces</option>
+				<option value="4">shots</option>
+				<option value="5">gills</option>
+				<option value="6">cups</option>
+				<option value="7">pints</option>
+				<option value="8">fifths</option>
+				<option value="9">quarts</option>
+				<option value="10">gallons</option>
+			</select>
+		</p>
+		<p id="answer"></p>
+		<script>
+		var m = measure();
+		var s = document.getElementById('select');
+		var a = document.getElementById('answer');
+		function onKeyUp(el) {
+			m = measure(el.value);
+			onChange(s);
+		}
+		function onChange(el) {
+			var result;
+			var value = Number(el.options[el.selectedIndex].value);
+			switch(value) {
+				case 1:
+					return a.innerHTML = m.teaspoons();
+				case 2:
+					return a.innerHTML = m.tablespoons();
+				case 3:
+					return a.innerHTML = m.fluidounces();
+				case 4:
+					return a.innerHTML = m.shots();
+				case 5:
+					return a.innerHTML = m.gills();
+				case 6:
+					return a.innerHTML = m.cups();
+				case 7:
+					return a.innerHTML = m.pints();
+				case 8:
+					return a.innerHTML = m.fifths();
+				case 9:
+					return a.innerHTML = m.quarts();
+				case 10:
+					return a.innerHTML = m.gallons();
+			}
+		}
+		</script>
+</body>
+</html>
