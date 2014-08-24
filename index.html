@@ -9,38 +9,72 @@
 	html { font-size: 300%; }
 	body { padding: 100px; text-align: center; }
 	select { -webkit-appearance: none; padding-left: 10px; }
-	input, select { width: 400px; }
+  input, select { text-align:center; width: 100%; padding: 0 10px; }
+  .col { width: 30%; float: left; }
+  .gut { width: 5%; float: left;
+    font-size: 25px;
+    color: #ddd;
+    padding-top: 164px;
+  }
 	</style>
 </head>
 <body>
-		<p>
-			<input type="text" placeholder="eg. 1/2 cup" onkeyup="onKeyUp(this)">
-			as
-			<select id="select" onchange="onChange(this)">
-				<option value="1">teaspoons</option>
-				<option value="2">tablespoons</option>
-				<option value="3">fluidounces</option>
-				<option value="4">shots</option>
-				<option value="5">gills</option>
-				<option value="6">cups</option>
-				<option value="7">pints</option>
-				<option value="8">fifths</option>
-				<option value="9">quarts</option>
-				<option value="10">gallons</option>
+  <div class="col">
+    <p>Amount</p>
+    <input type="text" placeholder="eg. 1/2 cup" onkeyup="onKeyUp(this)">
+  </div>
+  <div class="gut">
+  of
+  </div>
+  <div class="col">
+    <p>Density</p>
+    <select id="material">
+      <option value="1">liquid</option>
+      <option value="2">salt</option>
+    </select>
+  </div>
+  <div class="gut">
+  as
+  </div>
+  <div class="col">
+    <p>Unit</p>
+      <select id="unit" onchange="onChange(this)">
+        <optgroup label="Volume">
+          <option value="1">teaspoons</option>
+          <option value="2">tablespoons</option>
+          <option value="3">fluidounces</option>
+          <option value="4">shots</option>
+          <option value="5">gills</option>
+          <option value="6">cups</option>
+          <option value="7">pints</option>
+          <option value="8">fifths</option>
+          <option value="9">quarts</option>
+          <option value="10">gallons</option>
+        </optgroup>
+        <optgroup label="Mass">
+        </optgroup>
 			</select>
-		</p>
+  </div>
+
+
+
+
+
 		<p id="answer"></p>
+		<p id="debug"></p>
 		<script>
 		var m = measure();
-		var s = document.getElementById('select');
+		var s = document.getElementById('unit');
 		var a = document.getElementById('answer');
+		var d = document.getElementById('debug');
 		function onKeyUp(el) {
 			m = measure(el.value);
 			onChange(s);
 		}
 		function onChange(el) {
 			var result;
-			var value = Number(el.options[el.selectedIndex].value);
+      var value = Number(el.options[el.selectedIndex].value);
+      d.innerHTML = 'g:' + m.g + ' ml:' + m.ml;
 			switch(value) {
 				case 1:
 					return a.innerHTML = m.teaspoons();
