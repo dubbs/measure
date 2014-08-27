@@ -4,6 +4,7 @@
 	<title>Document</title>
 	<script src="bower_components/lexer/lexer.js"></script>
 	<script src="src/measure.js"></script>
+	<script src="src/measureDensity.js"></script>
 	<link rel="stylesheet" href="normalize.min.css">
 	<style>
 	html { font-size: 300%; }
@@ -25,17 +26,15 @@
 <body>
   <div class="col">
     <p>Amount</p>
-    <input type="text" placeholder="eg. 1/2 cup" onkeyup="onKeyUp(this)">
+    <input type="text" placeholder="eg. 1/2 cup" onkeyup="onAmountChange(this)">
     <p id="amount"></p>
   </div>
-  <div class="gut">
+  <div class="gut" style="display:none">
   of
   </div>
-  <div class="col">
+  <div class="col" style="display:none">
     <p>Material</p>
-    <select id="material" onchange="updateDensity(this)">
-      <option value="0">water</option>
-      <option value="1">butter</option>
+    <select id="material" onchange="onMaterialChange(this)">
     </select>
     <p id="density"></p>
   </div>
@@ -44,7 +43,7 @@
   </div>
   <div class="col">
     <p>Units</p>
-    <select id="unit" onchange="onChange(this)">
+    <select id="unit" onchange="onUnitChange(this)">
       <optgroup label="Volume">
         <option value="1">teaspoons</option>
         <option value="2">tablespoons</option>
@@ -70,19 +69,9 @@
 		var amount = document.getElementById('amount');
 		var density = document.getElementById('density');
 		var material = document.getElementById('material');
-		var units = document.getElementById('units');
-		function onKeyUp(el) {
-			m = measure(el.value);
-			onChange(s);
-    }
-    function updateDensity(el) {
-      var index = el.value;
-      var densityObject = window.MeasureDensity[index];
-      density.innerHTML = 'Density<br>' + densityObject.value;
-    }
-		function onChange(el) {
-			var result;
-      var value = Number(el.options[el.selectedIndex].value);
+    var units = document.getElementById('units');
+    var selectedUnitValue = 1;
+    function updateDisplay() {
       // amount
       if (m.ml) {
         amount.innerHTML = 'Volume<br>' + m.ml + 'ml';
@@ -90,10 +79,10 @@
         amount.innerHTML = 'Mass<br>' + m.g + 'g';
       }
       // material
-      updateDensity(material);
+      density.innerHTML = 'Density<br>' + m.d + 'g/ml';
       // units
       units.innerHTML = '&nbsp;<br>';
-			switch(value) {
+			switch(selectedUnitValue) {
 				case 1:
 					return units.innerHTML += m.teaspoons();
 				case 2:
@@ -119,7 +108,34 @@
 				case 12:
 					return units.innerHTML += m.kilograms();
 			}
-		}
+    }
+		function onAmountChange(el) {
+      m = measure(el.value);
+      m.d = Number(material.options[material.selectedIndex].value);
+      updateDisplay();
+    }
+		function onMaterialChange(el) {
+      m.d = Number(el.options[el.selectedIndex].value);
+      updateDisplay();
+    }
+		function onUnitChange(el) {
+      selectedUnitValue = Number(el.options[el.selectedIndex].value);
+      updateDisplay();
+    }
+    // load density select
+    for (var i = 0, l = MeasureDensity.length; i < l; i ++) {
+      var v = MeasureDensity[i];
+      var o = document.createElement('option');
+      o.setAttribute('value', v.value);
+      o.innerHTML = v.name;
+      material.appendChild(o);
+    }
+    function onMaterialChange(el) {
+      var density = el.value;
+      m.d = Number(density);
+      density.innerHTML = 'Density<br>' + density;
+      onUnitChange(s);
+    }
 		</script>
 </body>
 </html>

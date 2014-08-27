@@ -1,34 +1,3 @@
-/*jslint vars: true, indent: 2, sloppy: true */
-
-(function (window) {
-
-  // g/ml
-  var density = [
-    {name: 'Water', value: 1.000},
-    {name: 'Butter', value: 0.911},
-    {name: 'Honey', value: 1.420},
-    {name: 'Lard', value: 0.919},
-    {name: 'Heavy Cream', value: 0.994},
-    {name: 'Light Cream', value: 1.012},
-    {name: 'Whole Milk', value: 1.030},
-    {name: 'Skim Milk', value: 1.033},
-    {name: 'Oil, Coconut', value: 0.924},
-    {name: 'Oil, Corn', value: 0.922},
-    {name: 'Oil, Olive', value: 0.918},
-    {name: 'Oil, Palm', value: 0.915},
-    {name: 'Oil, Peanut', value: 0.914},
-    {name: 'Oil, Soya', value: 0.924},
-    {name: 'Salt', value: 2.165},
-    {name: 'Baking Soda', value: 2.200},
-    {name: 'Sugar', value: 1.550}
-
-  ];
-
-  window.MeasureDensity = density;
-
-}(this));
-
-
 (function (window) {
 
   // US Customary
@@ -120,7 +89,29 @@
   function Measure(options) {
     this.ml = options && options.ml || 0;
     this.g = options && options.g || 0;
+    this.d = options && options.d || 1;
   }
+
+  // density
+  Measure.prototype.density = function () {
+    return this.d;
+  };
+
+  // helpers
+  Measure.prototype.toVolume = function () {
+    if (this.g) {
+      this.ml = this.g / this.d;
+      this.g = 0;
+    }
+    return this;
+  };
+  Measure.prototype.toMass = function () {
+    if (this.ml) {
+      this.g = this.d * this.ml;
+      this.ml = 0;
+    }
+    return this;
+  };
 
   // volume
   Measure.prototype.milliliters = function () {
@@ -180,16 +171,10 @@
 
 	// mass
   Measure.prototype.grams = function () {
-    if (this.g) {
-      return this.g;
-    }
-    return (Measure.density * this.ml);
+    return this.g;
   };
   Measure.prototype.kilograms = function () {
-    if (this.g) {
-      return this.g / 1000;
-    }
-    return (Measure.density * this.ml) / 1000;
+    return this.g / 1000;
   };
   Measure.prototype.drams = function () {
     return this.totalMassByUnit('drams');
@@ -381,10 +366,6 @@
     }
   };
 
-  Measure.setDensity = function () {
-    Measure.density = window.MeasureDensity[0].value;
-  };
-
 	// create
   Measure.createFromString = function (options) {
     options = Measure.parseOptionsFromString(options);
@@ -400,7 +381,6 @@
     } else {
       Measure.setUnitSystem('US');
     }
-    Measure.setDensity();
     if (typeof options === 'string') {
       return Measure.createFromString(options);
     }
