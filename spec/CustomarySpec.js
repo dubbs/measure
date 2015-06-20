@@ -1,4 +1,6 @@
 describe("US Customary", function() {
+  var measure = require('../src/measure').measure;
+  var Measure = require('../src/measure').Measure;
   beforeEach(function () {
     Measure.setUnitSystem('US');
   });

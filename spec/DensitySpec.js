@@ -1,4 +1,5 @@
 describe("density", function() {
+  var measure = require('../src/measure').measure;
   it("should default to 1 g/ml (water)", function() {
     expect(measure().density()).toEqual(1);
   });

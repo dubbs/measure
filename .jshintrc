@@ -1,34 +1,29 @@
 {
-	// enforcing
-	"camelcase": true,
-	"curly": true,
-	"eqeqeq": true,
-	"forin": true,
-	"freeze": true,
-	"immed": true,
-	"indent": 2,
-	"latedef": true,
-	"newcap": true,
-	"noempty": true,
-	"nonbsp": true,
-	"undef": true,
-	"unused": true,
-	"trailing": true,
-	// relaxing
-	"evil": true,
-	"loopfunc": true,
-	// environment
-
-	"globals": {
-		"describe": false,
-		"it": false,
-		"expect": false,
-		"beforeEach": false,
-		"jasmine": false,
-		"spyOn": false,
-		"measure": false,
-		"Lexer": false,
-		"Measure": false
-
-	}
+  "camelcase": true,
+  "curly": true,
+  "eqeqeq": true,
+  "forin": true,
+  "freeze": true,
+  "immed": true,
+  "indent": 2,
+  "latedef": true,
+  "newcap": true,
+  "noempty": true,
+  "nonbsp": true,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "evil": true,
+  "loopfunc": true,
+  "globals": {
+    "module": false,
+    "describe": false,
+    "it": false,
+    "expect": false,
+    "beforeEach": false,
+    "jasmine": false,
+    "spyOn": false,
+    "require": false,
+    "window": false
+  }
 }
