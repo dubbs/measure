@@ -1,4 +1,5 @@
 describe("basic operations", function() {
+  var measure = require('../src/measure').measure;
   it("should add", function() {
     expect(measure('1 teaspoon').add('1 teaspoon').teaspoons()).toEqual(2);
   });

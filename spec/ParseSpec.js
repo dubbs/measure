@@ -1,4 +1,6 @@
 describe("parseOptionsFromString", function() {
+  var measure = require('../src/measure').measure;
+  var Measure = require('../src/measure').Measure;
   describe("count", function() {
     it("should parse long inputs", function() {
       expect(Measure.parseOptionsFromString('1 tomato')).toEqual({units: 1});
