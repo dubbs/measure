@@ -1,4 +1,6 @@
 describe("Metric", function() {
+  var measure = require('../src/measure').measure;
+  var Measure = require('../src/measure').Measure;
   describe("input", function() {
     it("should parse long volume inputs", function() {
       expect(Measure.parseOptionsFromString('1 millilitre')).toEqual({ml: 1});

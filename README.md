@@ -96,25 +96,23 @@ measure('6 1/2 teaspoon').divide(2).teaspoons(); // 3.25
 
 ## Contributing
 
-Grunt is used for build and tests, JSHint to enforce style.
+NPM is used for build and tests, JSHint to enforce style.
 
 ### Install Dependencies
 
 ```
-npm install && bower install
+npm install
 ```
 
 ### Run Tests
 
 ```
-grunt test
+$(npm bin)/jasmine
 ```
 
 ### Build
 
-```
-grunt build
-```
+Build is executed using pre-commit hooks
 
 ## Influences
 

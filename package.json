@@ -1,11 +1,21 @@
 {
   "name": "measure",
   "description": "Library for converting between units (volume, mass and count) and unit systems (US, Imperial, Metric)",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "index.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "$(npm bin)/jasmine",
+    "js:concat": "$(npm bin)/browserify src/exports.js -o dist/measure.js",
+    "js:min": "$(npm bin)/uglifyjs --compress --mangle --output dist/measure.min.js -- dist/measure.js",
+    "js:hint": "$(npm bin)/jshint src/*.js",
+    "git:add": "git add dist"
   },
+  "pre-commit": [
+    "js:hint",
+    "js:concat",
+    "js:min",
+    "git:add"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/dubbs/measure.git"
@@ -13,10 +23,11 @@
   "author": "Kevin Warrington <kevin.warrington@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-jasmine": "^0.6.5",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-uglify": "^0.5.0"
+    "browserify": "^10.2.4",
+    "jasmine": "^2.3.1",
+    "jshint": "^2.8.0",
+    "lex": "^1.7.8",
+    "pre-commit": "^1.0.10",
+    "uglify-js": "^2.4.23"
   }
 }

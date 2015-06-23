@@ -1,7 +1,7 @@
 {
   "name": "measure",
   "description": "Library for converting between units (volume, mass and count) and unit systems (US, Imperial, Metric)",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://github.com/dubbs/measure",
   "authors": [
     "Kevin Warrington <kevin.warrington@gmail.com>"
@@ -23,8 +23,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "devDependencies": {
-    "lexer": "~1.7.6"
-  }
+  ]
 }
