@@ -1,8 +1,8 @@
 {
   "name": "measure",
   "description": "Library for converting between units (volume, mass and count) and unit systems (US, Imperial, Metric)",
-  "version": "0.1.6",
-  "main": "index.js",
+  "version": "0.1.7",
+  "main": "src/measure.js",
   "scripts": {
     "test": "$(npm bin)/jasmine",
     "js:concat": "$(npm bin)/browserify src/exports.js -o dist/measure.js",
@@ -26,8 +26,10 @@
     "browserify": "^10.2.4",
     "jasmine": "^2.3.1",
     "jshint": "^2.8.0",
-    "lex": "^1.7.8",
     "pre-commit": "^1.0.10",
     "uglify-js": "^2.4.23"
+  },
+  "dependencies": {
+    "lex": "^1.7.9"
   }
 }
