@@ -1,4 +1,4 @@
-# measure [![Build Status](https://travis-ci.org/dubbs/measure.png)](https://travis-ci.org/dubbs/measure)
+# measure [![Build Status](https://travis-ci.org/dubbs/measure.svg?branch=master)](https://travis-ci.org/dubbs/measure)
 
 measure is a library for converting between units and unit systems.
 
