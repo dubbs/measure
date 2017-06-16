@@ -155,7 +155,7 @@ var USMass = require('./measureUSMass');
 var USVolume = require('./measureUSVolume');
 var ImperialMass = require('./measureImperialMass');
 var ImperialVolume = require('./measureImperialVolume');
-var Lexer = require('../node_modules/lex/lexer');
+var Lexer = require('lex/lexer');
 
 // MEASURE
 function Measure(options) {
@@ -468,7 +468,7 @@ module.exports = {
   Measure: Measure
 };
 
-},{"../node_modules/lex/lexer":1,"./measureImperialMass":4,"./measureImperialVolume":5,"./measureUSMass":6,"./measureUSVolume":7}],4:[function(require,module,exports){
+},{"./measureImperialMass":4,"./measureImperialVolume":5,"./measureUSMass":6,"./measureUSVolume":7,"lex/lexer":1}],4:[function(require,module,exports){
 function roundUnits(ratio) {
   return Math.round((ratio + 0.00001) * 100) / 100;
 }
