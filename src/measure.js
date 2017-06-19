@@ -2,7 +2,7 @@ var USMass = require('./measureUSMass');
 var USVolume = require('./measureUSVolume');
 var ImperialMass = require('./measureImperialMass');
 var ImperialVolume = require('./measureImperialVolume');
-var Lexer = require('../node_modules/lex/lexer');
+var Lexer = require('lex/lexer');
 
 // MEASURE
 function Measure(options) {
